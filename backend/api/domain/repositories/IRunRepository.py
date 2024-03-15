@@ -14,5 +14,5 @@ class IRunRepository:
     def findById(self, id: str) -> Run:
         pass
     
-    def findAll(self) -> list[Run]:
+    def findAll() -> list[Run]:
         pass

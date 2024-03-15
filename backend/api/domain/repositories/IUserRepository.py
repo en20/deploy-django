@@ -14,5 +14,5 @@ class IUserRepository:
     def findById(self, id: str) -> User:
         pass
     
-    def findAll(self) -> list[User]:
+    def findAll() -> list[User]:
         pass

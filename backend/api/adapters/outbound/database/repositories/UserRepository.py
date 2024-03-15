@@ -37,9 +37,9 @@ class UserRepository(IUserRepository):
         
     def findById(self, id) -> User:
         try:
-            return User.objects.filter(id=id)
+            return User.objects.get(id=id)
         except ObjectDoesNotExist:
             return None
         
-    def findAll():
-        return 
+    def findAll() -> list[User]:
+        return  User.objects.all()

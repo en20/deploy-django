@@ -14,5 +14,5 @@ class IGroupRepository:
     def findById(self, id: str) -> Group:
         pass
     
-    def findAll(self) -> list[Group]:
+    def findAll() -> list[Group]:
         pass

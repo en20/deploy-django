@@ -14,5 +14,5 @@ class IRobotRepository:
     def findById(self, id: str) -> Robot:
         pass
     
-    def findAll(self) -> list[Robot]:
+    def findAll() -> list[Robot]:
         pass

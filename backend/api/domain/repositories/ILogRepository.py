@@ -14,5 +14,5 @@ class ILogRepository:
     def findById(self, id: str) -> Log:
         pass
     
-    def findAll(self) -> list[Log]:
+    def findAll() -> list[Log]:
         pass
