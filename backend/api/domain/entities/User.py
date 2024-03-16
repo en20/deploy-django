@@ -1,5 +1,6 @@
 from datetime import date
 
+
 # User Entity
 class User:
     id: str

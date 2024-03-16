@@ -2,7 +2,7 @@ from datetime import date
 
 
 # Run entity
-class Run():
+class Run:
     id: str
     robot: str
     task: str

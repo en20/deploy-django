@@ -1,5 +1,6 @@
 from datetime import date
 
+
 # Robot entity
 class Robot:
     id: str
