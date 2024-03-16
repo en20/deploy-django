@@ -22,5 +22,5 @@ class IGroupRepository(ABC):
         pass
 
     @abstractmethod
-    def findAll() -> list[Group]:
+    def findAll(skip, limit) -> list[Group]:
         pass

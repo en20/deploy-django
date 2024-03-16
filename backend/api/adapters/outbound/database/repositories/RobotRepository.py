@@ -38,6 +38,7 @@ class RobotRepository(IRobotRepository):
 
     def findById(self, id) -> Robot:
         return Robot.objects.get(id=id)
-
-    def findAll() -> list[Robot]:
-        return Robot.objects.all()
+    
+    def findAll(skip, limit) -> list[Robot]:
+        return Robot.objects.all()[skip:limit]
+    

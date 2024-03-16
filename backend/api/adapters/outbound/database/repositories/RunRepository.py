@@ -40,5 +40,11 @@ class RunRepository(IRunRepository):
         except ObjectDoesNotExist:
             return None
 
-    def findAll() -> list[Run]:
-        return Run.objects.all()
+    def findAll(self, skip, limit) -> list[Run]:
+        return Run.objects.all()[skip:limit]
+
+    def getRobotRuns(self, robotId) -> list[Run]:
+        return Run.objects.filter(robot=robotId)
+
+    def countRobotRuns(self, robotId) -> list[Run]:
+        return Run.objects.filter(robot=robotId).count()
