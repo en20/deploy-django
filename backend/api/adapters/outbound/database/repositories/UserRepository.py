@@ -41,5 +41,5 @@ class UserRepository(IUserRepository):
         except ObjectDoesNotExist:
             return None
         
-    def findAll() -> list[User]:
-        return  User.objects.all()
+    def findAll(skip, limit) -> list[User]:
+        return  User.objects.all()[skip:limit]

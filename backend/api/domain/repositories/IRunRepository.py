@@ -21,5 +21,5 @@ class IRunRepository(ABC):
         pass
     
     @abstractmethod
-    def findAll() -> list[Run]:
+    def findAll(skip, limit) -> list[Run]:
         pass

@@ -21,5 +21,5 @@ class IUserRepository(ABC):
         pass
     
     @abstractmethod
-    def findAll() -> list[User]:
+    def findAll(skip, limit) -> list[User]:
         pass

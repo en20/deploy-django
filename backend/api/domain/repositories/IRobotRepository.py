@@ -21,5 +21,5 @@ class IRobotRepository(ABC):
         pass
     
     @abstractmethod
-    def findAll() -> list[Robot]:
+    def findAll(skip, limit) -> list[Robot]:
         pass
