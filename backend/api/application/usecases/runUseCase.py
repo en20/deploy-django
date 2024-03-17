@@ -1,9 +1,9 @@
-from api.application.ports.runPort import RunPort
+from api.application.ports.runPort import IRunUseCase
 from api.domain.entities.run import Run
 from api.adapters.outbound.database.repositories.RunRepository import RunRepository
 
 
-class RunUseCase(RunPort):
+class RunUseCase(IRunUseCase):
     runRepository: RunRepository
 
     def __init__(self, runRepository: RunRepository) -> None:

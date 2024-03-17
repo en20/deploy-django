@@ -1,0 +1,40 @@
+from ninja import Router
+from django.http import HttpRequest
+from api.application.ports.runPort import IRunUseCase
+from api.adapters.inbound.http.dtos.Run import RunResponse
+
+
+DEFAULT_SKIP = 0
+DEFAULT_LIMIT = 0
+
+
+class RunController:
+    useCase: IRunUseCase
+
+    def __init__(self, useCase: IRunUseCase) -> None:
+        self.useCase = useCase
+
+    def getRouter(self):
+        router = Router()
+
+        @router.get("/{robotId}/runs", response={200: RunResponse})
+        def getRobotRuns(
+            request: HttpRequest,
+            robotId: str,
+            skip: int = DEFAULT_SKIP,
+            limit: int = DEFAULT_LIMIT,
+        ):
+            robot_runs = self.useCase.getRobotRun(robotId, skip, limit)
+
+            if len(robot_runs) == 0:
+                return {
+                    "message": "There are no executions avaliable",
+                    "runs": [],
+                }
+
+            return {
+                "message": "Executions fetched successfully",
+                "runs": list(robot_runs),
+            }
+
+        return router
