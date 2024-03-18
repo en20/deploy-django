@@ -11,3 +11,8 @@ class RunSchema(ModelSchema):
 class RunResponse(Schema):
     message: str
     runs: list[RunSchema]
+
+
+class RunCountResponse(Schema):
+    message: str
+    count: int

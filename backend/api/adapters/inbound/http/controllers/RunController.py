@@ -1,7 +1,7 @@
 from ninja import Router
 from django.http import HttpRequest
 from api.application.ports.runPort import IRunUseCase
-from api.adapters.inbound.http.dtos.Run import RunResponse
+from api.adapters.inbound.http.dtos.Run import RunResponse, RunCountResponse
 
 
 DEFAULT_SKIP = 0
@@ -37,4 +37,15 @@ class RunController:
                 "runs": list(robot_runs),
             }
 
+        @router.get("/{robotId}/runs/count", response={200: RunCountResponse})
+        def countRobotRuns(
+            request: HttpRequest,
+            robotId: str
+        ):
+            count = self.useCase.countRobotRuns(robotId)
+
+            return {
+                "message": "Execution count fetched successfully",
+                "count": count,
+            }
         return router
