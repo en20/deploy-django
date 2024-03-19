@@ -1,4 +1,4 @@
-from api.domain.entities.run import Run
+from api.adapters.outbound.database.models.run import Run
 from abc import ABC, abstractmethod
 
 
