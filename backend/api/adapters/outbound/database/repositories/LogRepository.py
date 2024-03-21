@@ -36,6 +36,6 @@ class LogRepository(ILogRepository):
 
     def findById(self, id) -> Log:
         return Log.objects.get(id=id)
-    
+
     def findAll(skip, limit) -> list[Log]:
         return Log.objects.all()[skip:limit]

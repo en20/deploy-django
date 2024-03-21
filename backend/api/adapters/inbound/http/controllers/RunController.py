@@ -38,14 +38,12 @@ class RunController:
             }
 
         @router.get("/{robotId}/runs/count", response={200: RunCountResponse})
-        def countRobotRuns(
-            request: HttpRequest,
-            robotId: str
-        ):
+        def countRobotRuns(request: HttpRequest, robotId: str):
             count = self.useCase.countRobotRuns(robotId)
 
             return {
                 "message": "Execution count fetched successfully",
                 "count": count,
             }
+
         return router

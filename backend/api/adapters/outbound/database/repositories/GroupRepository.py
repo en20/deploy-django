@@ -33,6 +33,6 @@ class GroupRepository(IGroupRepository):
 
     def findById(self, id) -> Group:
         return Group.objects.get(id=id)
-    
+
     def findAll(skip, limit) -> list[Group]:
         return Group.objects.all()[skip:limit]
