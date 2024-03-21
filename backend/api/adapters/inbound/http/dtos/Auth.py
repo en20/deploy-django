@@ -1,12 +1,10 @@
-from ninja import ModelSchema, Schema
-from .models import Robot, Run, Log
+from ninja import Schema
 from typing import List
 
 
 class LoginRequestBody(Schema):
     email: str
     password: str
-
 
 
 class AccessResponse(Schema):
@@ -19,7 +17,6 @@ class DecodeResponse(Schema):
     user: str
     email: str
     groups: List[str]
-
 
 
 class Error(Schema):

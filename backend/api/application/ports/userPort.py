@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from api.domain.entities.user import User
 
-class IUserPort(ABC):
+
+class IUserUseCase(ABC):
     @abstractmethod
     def create_user(self, user: User) -> User:
         pass
@@ -13,7 +14,3 @@ class IUserPort(ABC):
     @abstractmethod
     def get_user_by_email(self, email: str) -> User:
         pass
-
-
-
-

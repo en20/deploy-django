@@ -1,23 +1,23 @@
 from ninja import Router
-from api.token import generate_jwt_token, verify_jwt_token, decode_jwt_token
 from django.http import HttpRequest, HttpResponse
-from api.auth import cookieAuth, AuthBearer
-from api.repositories.user import get_user_by_email
-from django.middleware.csrf import get_token
-from api.application.ports.tokenPort import ITokenUseCase
-from api.application.ports.UserPort import IUserUseCase
-from api.adapters.inbound.http.dtos.Auth import LoginRequestBody, DecodeResponse, AccessResponse, Error
-from api.adapters.inbound.http.utils.Auth import Auth
+from application.ports.tokenPort import ITokenUseCase
+from application.ports.userPort import IUserUseCase
+from adapters.inbound.http.dtos.Auth import (
+    LoginRequestBody,
+    DecodeResponse,
+    AccessResponse,
+    Error,
+)
+from adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
 
-router = Router()
 
 class AuthController:
     tokenUseCase: ITokenUseCase
     userUseCase: IUserUseCase
 
-    def __init__(self, tokenUseCase : ITokenUseCase, userUseCase : IUserUseCase):
-            self.tokenUseCase = tokenUseCase
-            self.userUseCase = userUseCase
+    def __init__(self, tokenUseCase: ITokenUseCase, userUseCase: IUserUseCase):
+        self.tokenUseCase = tokenUseCase
+        self.userUseCase = userUseCase
 
     def extract_groups(user):
         groups = []
@@ -28,9 +28,10 @@ class AuthController:
     def get_router(self):
         router = Router()
 
-
         @router.post("/login", response={200: AccessResponse, 400: Error})
-        def login(request: HttpRequest, response: HttpResponse, credentials: LoginRequestBody):
+        def login(
+            request: HttpRequest, response: HttpResponse, credentials: LoginRequestBody
+        ):
             user = self.userUseCase.get_user_by_email(credentials.email)
 
             if len(user) == 0:
@@ -39,7 +40,7 @@ class AuthController:
             if user[0].password != credentials.password:
                 return 400, {"error": "Senha incorreta"}
 
-            user_groups = extract_groups(user[0])
+            user_groups = self.extract_groups(user[0])
 
             access_token = self.tokenUseCase.generate_jwt_token(
                 user[0].id, user[0].email, user_groups, "access_token"
@@ -55,8 +56,9 @@ class AuthController:
                 "access_token": access_token,
             }
 
-
-        @router.get("/decode", auth=AuthBearer(), response={200: DecodeResponse, 401: Error})
+        @router.get(
+            "/decode", auth=AuthBearer(), response={200: DecodeResponse, 401: Error}
+        )
         def decode(request: HttpRequest, response: HttpResponse):
             access_token = request.auth
 
@@ -66,15 +68,18 @@ class AuthController:
                 "message": "Token decoded successfully",
                 "user": payload["user"],
                 "email": payload["email"],
-                "groups": payload["groups"]
+                "groups": payload["groups"],
             }
 
-
-        @router.get("/refresh", auth=cookieAuth, response={200: AccessResponse, 401: Error})
+        @router.get(
+            "/refresh", auth=cookieAuth, response={200: AccessResponse, 401: Error}
+        )
         def refresh(request):
             refresh_token = request.auth
 
-            _, message = self.tokenUseCase.verify_jwt_token(refresh_token, "refresh_token")
+            _, message = self.tokenUseCase.verify_jwt_token(
+                refresh_token, "refresh_token"
+            )
 
             payload = self.tokenUseCase.decode_jwt_token(refresh_token)
 

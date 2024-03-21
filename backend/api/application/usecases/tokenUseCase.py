@@ -42,8 +42,7 @@ class TokenUseCase(ITokenUseCase):
             "iat": datetime.now(timezone.utc),
         }
 
-        jwt_token = jwt.encode(
-            token_payload, self.private_key, algorithm="RS256")
+        jwt_token = jwt.encode(token_payload, self.private_key, algorithm="RS256")
 
         return jwt_token
 
