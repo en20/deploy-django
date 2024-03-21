@@ -1,4 +1,4 @@
-from api.domain.entities.User import User
+from api.domain.entities.user import User
 from abc import ABC, abstractmethod
 
 
@@ -22,5 +22,5 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def findAll(skip, limit) -> list[User]:
+    def findAll(self, skip, limit) -> list[User]:
         pass
