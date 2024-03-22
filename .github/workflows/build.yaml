@@ -1,8 +1,7 @@
 name: Build Application
 on:
   pull_request:
-    branches:
-      - dev
+    branches: ["dev"]
 
 jobs:
   build:
