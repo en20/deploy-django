@@ -33,4 +33,4 @@ jobs:
           npm install -g prettier
       
       - name: Format TypeScript/JavaScript files
-        run: prettier --write "**/*.js" "**/*.jsx" "**/*.ts" "**/*.tsx"
+        run: prettier --write "**/*.js" "**/*.ts" "**/*.tsx"
