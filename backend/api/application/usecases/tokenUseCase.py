@@ -23,7 +23,7 @@ class TokenUseCase(ITokenUseCase):
         self.access_token_expiration = access_token_expiration
         self.refresh_token_expiration = refresh_token_expiration
 
-    def generate_jwt_token(
+    def generate_token(
         self, userId: str, email: str, groups: list[str], token_type: str
     ) -> str:
         expiration = 0

@@ -14,7 +14,7 @@ class RunController:
     def __init__(self, useCase: IRunUseCase) -> None:
         self.useCase = useCase
 
-    def getRouter(self):
+    def get_routes(self):
         router = Router()
 
         @router.get("/{robotId}/runs", response={200: RunResponse})

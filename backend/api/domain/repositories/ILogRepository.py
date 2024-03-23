@@ -22,5 +22,5 @@ class ILogRepository(ABC):
         pass
 
     @abstractmethod
-    def findAll(skip, limit) -> list[Log]:
+    def findAll(self, skip, limit) -> list[Log]:
         pass

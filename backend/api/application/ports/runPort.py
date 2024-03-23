@@ -10,3 +10,7 @@ class IRunUseCase(ABC):
     @abstractmethod
     def countRobotRuns(self, robot) -> int:
         pass
+
+    @abstractmethod
+    def updateRunStatus(self, run: Run, status: str) -> bool:
+        pass

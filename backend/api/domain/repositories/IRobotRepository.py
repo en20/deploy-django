@@ -1,4 +1,4 @@
-from api.domain.entities.Robot import Robot
+from api.domain.entities.robot import Robot
 from abc import ABC, abstractmethod
 
 
@@ -22,5 +22,5 @@ class IRobotRepository(ABC):
         pass
 
     @abstractmethod
-    def findAll(skip, limit) -> list[Robot]:
+    def findAll(self, skip, limit) -> list[Robot]:
         pass

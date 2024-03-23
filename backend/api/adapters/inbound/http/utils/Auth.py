@@ -1,5 +1,5 @@
 from ninja.security import HttpBearer, APIKeyCookie
-from api.token import verify_jwt_token
+from api.application.usecases.tokenUseCase import TokenUseCase
 
 
 class InvalidToken(Exception):
@@ -24,7 +24,7 @@ class CookieKey(APIKeyCookie):
 
 class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
-        valid, message = verify_jwt_token(token, "access_token")
+        valid, message = TokenUseCase().verify_jwt_token(token, "access_token")
 
         if not valid:
             raise InvalidToken(message)
