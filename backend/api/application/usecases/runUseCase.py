@@ -14,3 +14,7 @@ class RunUseCase(IRunUseCase):
 
     def countRobotRuns(self, robot) -> int:
         return self.runRepository.countRobotRuns(robot)
+
+    def updateRunStatus(self, run: Run, status: str) -> bool:
+        run.status = status
+        return self.runRepository.update(run.id, run)
