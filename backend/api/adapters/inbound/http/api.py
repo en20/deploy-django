@@ -1,12 +1,11 @@
 from ninja import NinjaAPI
-from api.adapters.inbound.http.controllers.RunController import RunController
-from api.adapters.outbound.database.repositories.RunRepository import RunRepository
-from api.application.usecases.runUseCase import RunUseCase
+from api.adapters.inbound.http.routes.run import RunRouter
+from api.adapters.inbound.http.routes.auth import AuthRouter
 
 api = NinjaAPI()
 
-runRepository = RunRepository()
-runUseCase = RunUseCase(runRepository)
-runController = RunController(runUseCase)
+runRouter = RunRouter()
+authRouter = AuthRouter()
 
-api.add_router("/robots/", runController.getRouter())
+api.add_router("/robots/", runRouter.get_router())
+api.add_router("/auth/", authRouter.get_router())

@@ -1,5 +1,5 @@
-from adapters.outbound.database.models.user import User as UserSchema
-from domain.entities.user import User
+from api.adapters.outbound.database.models.user import User as UserSchema
+from api.domain.entities.user import User
 from api.domain.repositories.IUserRepository import IUserRepository
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -37,6 +37,12 @@ class UserRepository(IUserRepository):
     def findById(self, id) -> User:
         try:
             return self.schemaToUser(User.objects.get(id=id))
+        except ObjectDoesNotExist:
+            return None
+
+    def findByEmail(self, email: str) -> User:
+        try:
+            return self.schemaToUser(User.objects.get(email=email))
         except ObjectDoesNotExist:
             return None
 

@@ -22,5 +22,9 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
+    def findByEmail(self, email: str) -> User:
+        pass
+
+    @abstractmethod
     def findAll(self, skip, limit) -> list[User]:
         pass

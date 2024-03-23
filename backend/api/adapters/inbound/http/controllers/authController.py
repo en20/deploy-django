@@ -1,14 +1,14 @@
 from ninja import Router
 from django.http import HttpRequest, HttpResponse
-from application.ports.tokenPort import ITokenUseCase
-from application.ports.userPort import IUserUseCase
-from adapters.inbound.http.dtos.Auth import (
+from api.application.ports.tokenPort import ITokenUseCase
+from api.application.ports.userPort import IUserUseCase
+from api.adapters.inbound.http.dtos.Auth import (
     LoginRequestBody,
     DecodeResponse,
     AccessResponse,
     Error,
 )
-from adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
+from api.adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
 
 
 class AuthController:
@@ -25,7 +25,7 @@ class AuthController:
             groups.append(group.id)
         return groups
 
-    def get_router(self):
+    def get_routes(self):
         router = Router()
 
         @router.post("/login", response={200: AccessResponse, 400: Error})
@@ -91,3 +91,5 @@ class AuthController:
                 "message": "Token refreshed successfully",
                 "access_token": access_token,
             }
+
+        return router
