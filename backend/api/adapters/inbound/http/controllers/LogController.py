@@ -17,12 +17,12 @@ class LogController:
 
         @router.get("/{robotId}/runs/{run_id}/logs", response={200: RunResponse, 400: Error, 404: Error})
         def get_logs(request, robot_id, run_id, skip: int = DEFAULT_SKIP, limit: int = DEFAULT_LIMIT):
-            run = getRobotRun(robot_id)
+            run = self.runUseCase.getRobotRun(robot_id, limit, skip)
 
             if run is None:
                 return 404, {"error": "this run does not exist"}
 
-            logs = list_logs(run_id)
+            logs = self.logUseCase.list_logs(run_id)
 
             return {
                 "message": "Logs fetched successfully",
@@ -30,17 +30,14 @@ class LogController:
                 "logs": logs,
             }
 
-        @router.get(
-            "/{robotId}/runs/{run_id}/logs/count",
-            response={200: CountResponse, 400: Error, 404: Error},
-        )
-        def logs_count(request, robot_id, run_id):
-            run = getRobotRun(robot_id)
+        @router.get("/{robotId}/runs/{run_id}/logs/count", response={200: CountResponse, 400: Error, 404: Error})
+        def logs_count(request, robot_id, run_id, skip: int = DEFAULT_SKIP, limit: int = DEFAULT_LIMIT):
+            run = self.runUseCase.getRobotRun(robot_id, limit, skip)
 
             if run is None:
                 return 404, {"error": "This run does not exist"}
 
-            logs_count = count_logs(run_id)
+            logs_count = self.logUseCase.count_logs(run_id)
 
             return {"message": "Logs count fetched successfully", "count": logs_count}
 
