@@ -24,3 +24,11 @@ class ILogRepository(ABC):
     @abstractmethod
     def findAll(self, skip, limit) -> list[Log]:
         pass
+
+    @abstractmethod
+    def get_logs_by_run_id(self, run_id) -> list[Log]:
+        pass
+
+    @abstractmethod
+    def count_logs_by_run_id(self, run_id) -> int:
+        pass

@@ -45,7 +45,7 @@ class RunRepository(IRunRepository):
     def getRobotRuns(self, robotId) -> list[Run]:
         return map(self.schemaToRun, Run.objects.filter(robot=robotId))
 
-    def countRobotRuns(self, robotId) -> list[Run]:
+    def countRobotRuns(self, robotId) -> int:
         return Run.objects.filter(robot=robotId).count()
 
     def schemaToRun(schema: RunSchema) -> Run:
