@@ -1,6 +1,6 @@
 from api.application.ports.logPort import ILogUseCase
 from api.domain.entities.log import Log
-from api.adapters.outbound.database.repositories.LogRepository from LogRepository
+from api.adapters.outbound.database.repositories import LogRepository
 
 
 class LogUseCase(ILogUseCase):
