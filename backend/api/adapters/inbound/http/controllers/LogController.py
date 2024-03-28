@@ -2,11 +2,13 @@ from ninja import Router
 from django.http import HttpRequest, HttpResponse
 from backend.api.application.ports.logPort import ILogUseCase
 from backend.api.application.ports.runPort import IRunUseCase
-
+from backend.api.adapters.inbound.http.dtos.Run import RunResponse
+from backend.api.adapters.inbound.http.dtos.Auth import Error
 
 class LogController:
     logUseCase: ILogUseCase
     runUseCase: IRunUseCase
+
 
     def __init__(self, logUseCase: ILogUseCase, runUseCase: IRunUseCase):
         self.logUseCase = logUseCase
