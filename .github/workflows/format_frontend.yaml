@@ -1,0 +1,22 @@
+name: Format Frontend
+on: pull_request
+
+jobs:
+  node-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: Install Node.js dependencies
+        run: |
+          npm install -g prettier
+      
+      - name: Format TypeScript/JavaScript files
+        run: prettier --write "**/*.js" "**/*.ts" "**/*.tsx"

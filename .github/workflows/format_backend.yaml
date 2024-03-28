@@ -1,4 +1,4 @@
-name: Format Application
+name: Format Backend
 on: pull_request
 
 jobs:
@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up python
+      - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12.x' 
@@ -22,15 +22,3 @@ jobs:
       - name: Format python files
         run: |
           black backend/
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      
-      - name: Install Node.js dependencies
-        run: |
-          npm install -g prettier
-      
-      - name: Format TypeScript/JavaScript files
-        run: prettier --write "**/*.js" "**/*.ts" "**/*.tsx"
