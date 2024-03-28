@@ -2,13 +2,18 @@ from ninja import Router
 from django.http import HttpRequest, HttpResponse
 from backend.api.application.ports.logPort import ILogUseCase
 from backend.api.application.ports.runPort import IRunUseCase
+from backend.api.adapters.inbound.http.dtos.Log import LogCountResponse
 from backend.api.adapters.inbound.http.dtos.Run import RunResponse
 from backend.api.adapters.inbound.http.dtos.Auth import Error
+
+
+DEFAULT_SKIP = 0
+DEFAULT_LIMIT = 0
+
 
 class LogController:
     logUseCase: ILogUseCase
     runUseCase: IRunUseCase
-
 
     def __init__(self, logUseCase: ILogUseCase, runUseCase: IRunUseCase):
         self.logUseCase = logUseCase
@@ -32,7 +37,7 @@ class LogController:
                 "logs": logs,
             }
 
-        @router.get("/{robotId}/runs/{run_id}/logs/count", response={200: CountResponse, 400: Error, 404: Error})
+        @router.get("/{robotId}/runs/{run_id}/logs/count", response={200: LogCountResponse, 400: Error, 404: Error})
         def logs_count(request, robot_id, run_id, skip: int = DEFAULT_SKIP, limit: int = DEFAULT_LIMIT):
             run = self.runUseCase.getRobotRun(robot_id, limit, skip)
 
