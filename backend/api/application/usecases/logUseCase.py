@@ -4,6 +4,8 @@ from api.domain.repositories.ILogRepository import ILogRepository
 
 
 class LogUseCase(ILogUseCase):
+    logRepository: ILogRepository
+
     def __init__(self, logRepository: ILogRepository) -> None:
         self.logRepository = logRepository
 

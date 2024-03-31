@@ -2,6 +2,7 @@ from datetime import date
 from typing import Annotated
 from pydantic import BaseModel, Field
 
+
 # User Entity
 class User(BaseModel):
     id: str

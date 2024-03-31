@@ -6,17 +6,17 @@ from api.domain.entities.group import Group
 
 class GroupRepository(IGroupRepository):
     def create(self, group: Group) -> Group:
-        return GroupSchema.objects.create(
-            id=group.id,
-            name=group.name,
-            description=group.description,
-            created_at=group.created_at,
+        return self.schemaToGroup(
+            GroupSchema.objects.create(
+                name=group.name,
+                description=group.description,
+                created_at=group.created_at,
+            )
         )
 
     def update(self, id, newGroup: Group) -> bool:
         try:
             GroupSchema.objects.filter(id=id).update(
-                id=newGroup.id,
                 name=newGroup.name,
                 description=newGroup.description,
                 created_at=newGroup.created_at,

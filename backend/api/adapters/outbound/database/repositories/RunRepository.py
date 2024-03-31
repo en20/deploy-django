@@ -1,43 +1,54 @@
-from api.adapters.outbound.database.models.run import Run
+from api.adapters.outbound.database.models.run import Run as RunSchema
+from api.domain.entities.run import Run
 from api.domain.repositories.IRunRepository import IRunRepository
 from django.core.exceptions import ObjectDoesNotExist
+
 
 # Concrete Implementation for Run Repository
 class RunRepository(IRunRepository):
     def create(self, run: Run) -> Run:
-        return Run.objects.create(
-            id=run.id, 
-            task=run.task, 
-            robot=run.robot,
-            status=run.status, 
-            started_at=run.started_at
+        return self.schemaToRun(
+            Run.objects.create(
+                task=run.task,
+                robot=run.robot,
+                status=run.status,
+            )
         )
-        
+
     def update(self, id, newRun: Run) -> bool:
         try:
             Run.objects.filter(id=id).update(
-                id=newRun.id, 
-                robot=newRun.robot, 
-                task=newRun.task, 
-                status=newRun.status, 
-                started_at=newRun.started_at
+                robot=newRun.robot,
+                task=newRun.task,
+                status=newRun.status,
             )
             return True
         except ObjectDoesNotExist:
             return False
-        
+
     def delete(self, id) -> bool:
         try:
             Run.objects.filter(id=id).delete()
             return True
         except ObjectDoesNotExist:
             return False
-        
+
     def findById(self, id) -> Run:
         try:
-            return Run.objects.get(id=id)
+            return self.schemaToRun(Run.objects.get(id=id))
         except ObjectDoesNotExist:
             return None
-        
-    def findAll() -> list[Run]:
-        return Run.objects.all()
+
+    def findAll(self, skip, limit) -> list[Run]:
+        return map(self.schemaToRun, Run.objects.all()[skip:limit])
+
+    def getRobotRuns(self, robotId) -> list[Run]:
+        return map(self.schemaToRun, Run.objects.filter(robot=robotId))
+
+    def countRobotRuns(self, robotId) -> int:
+        return Run.objects.filter(robot=robotId).count()
+
+    def schemaToRun(schema: RunSchema) -> Run:
+        return Run(
+            schema.id, schema.robot.id, schema.task.id, schema.status, schema.created_at
+        )

@@ -1,4 +1,4 @@
-from api.domain.entities.Robot import Robot
+from api.domain.entities.robot import Robot
 from abc import ABC, abstractmethod
 
 

@@ -1,0 +1,45 @@
+version: "3.1"
+
+services:
+  api:
+    image: django-api
+    build: ./
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      CELERY_BROKER_URL: ${CELERY_RESULT_BACKEND}
+      CELERY_RESULT_BACKEND: ${CELERY_BROKER_URL}
+      CELERY_DEBUG: ${CELERY_DEBUG}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: postgres
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      PUBLIC_KEY: ${PUBLIC_KEY}
+      BOT_LOGIN_PAGE: ${BOT_LOGIN_PAGE}
+      BOT_ADD_PAGE: ${BOT_ADD_PAGE}
+    volumes:
+      - server:/usr/src/app
+    depends_on:
+      - postgres
+      - redis
+  redis:
+    image: redis:7.2.1-alpine
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - api:/var/lib/postgresql
+
+volumes:
+  server:
+    external: false
+  api:
+    external: false

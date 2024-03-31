@@ -4,27 +4,24 @@ from django.core.exceptions import ObjectDoesNotExist
 from api.domain.entities.robot import Robot
 
 
-# Concrete Implementation for Robot Repository
 class RobotRepository(IRobotRepository):
     def create(self, robot: Robot) -> Robot:
-        return RobotSchema.objects.create(
-            id=robot.id,
-            name=robot.name,
-            description=robot.description,
-            section_name=robot.section_name,
-            group=robot.group,
-            created_at=robot.created_at,
+        return self.schemaToRobot(
+            RobotSchema.objects.create(
+                name=robot.name,
+                description=robot.description,
+                section_name=robot.section_name,
+                group=robot.group,
+            )
         )
 
     def update(self, id, newRobot: Robot) -> bool:
         try:
             RobotSchema.objects.filter(id=id).update(
-                id=newRobot.id,
                 name=newRobot.name,
                 description=newRobot.description,
                 section_name=newRobot.section_name,
                 group=newRobot.group,
-                created_at=newRobot.created_at,
             )
             return True
         except ObjectDoesNotExist:
@@ -46,8 +43,7 @@ class RobotRepository(IRobotRepository):
     def findAllByGroups(self, groups: list[str]) -> list[Robot]:
         return map(
             self.schemaToRobot,
-            filter(lambda robot: robot.group.id in groups,
-                   RobotSchema.objects.all()),
+            filter(lambda robot: robot.group.id in groups, RobotSchema.objects.all()),
         )
 
     def schemaToRobot(schema: RobotSchema) -> Robot:
