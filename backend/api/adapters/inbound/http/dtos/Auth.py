@@ -21,3 +21,7 @@ class DecodeResponse(Schema):
 
 class Error(Schema):
     error: str
+
+
+class CsrfResponse(Schema):
+    message: str
