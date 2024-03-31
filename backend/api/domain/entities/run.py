@@ -1,8 +1,8 @@
 from datetime import date
+from pydantic import BaseModel
 
 
-# Run entity
-class Run():
+class Run(BaseModel):
     id: str
     robot: str
     task: str
