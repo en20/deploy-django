@@ -49,7 +49,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+<<<<<<< HEAD
 ROOT_URLCONF = 'server.urls'
+=======
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    "http://0.0.0.0:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]
+
+ROOT_URLCONF = "server.urls"
+>>>>>>> b181ebb (fix: log controller, add log router)
 
 TEMPLATES = [
     {
