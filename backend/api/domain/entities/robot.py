@@ -1,8 +1,8 @@
 from datetime import date
+from pydantic import BaseModel
 
 
-# Robot entity
-class Robot:
+class Robot(BaseModel):
     id: str
     name: str
     description: str

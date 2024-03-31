@@ -34,15 +34,13 @@ def handle_login(run, driver, wait, name, password):
     wait.until(EC.visibility_of_element_located((By.ID, "site-name")))
     match_element(
         "Django administration",
-        driver.find_element(
-            By.ID, "site-name").find_element(By.TAG_NAME, "a").text,
+        driver.find_element(By.ID, "site-name").find_element(By.TAG_NAME, "a").text,
     )
 
     log(run, "Inserindo credenciais")
 
     find_and_set_key(driver, (By.ID, "id_username"), name)
-    find_and_set_key(driver, (By.ID, "id_password"),
-                     password).send_keys(Keys.RETURN)
+    find_and_set_key(driver, (By.ID, "id_password"), password).send_keys(Keys.RETURN)
 
     time.sleep(1)
     if len(driver.find_elements(By.CLASS_NAME, "errornote")) == 1:
@@ -87,8 +85,7 @@ def execute_mock_bot(file_path, run_id, name, password):
                     driver.title,
                 )
 
-                wait.until(EC.visibility_of_element_located(
-                    (By.ID, "content")))
+                wait.until(EC.visibility_of_element_located((By.ID, "content")))
                 match_element(
                     "Add usuario",
                     driver.find_element(By.ID, "content")
@@ -102,8 +99,7 @@ def execute_mock_bot(file_path, run_id, name, password):
                     Keys.RETURN
                 )
 
-                wait.until(EC.visibility_of_element_located(
-                    (By.CLASS_NAME, "success")))
+                wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "success")))
                 match_element(
                     "was added successfully",
                     driver.find_element(By.CLASS_NAME, "success").text,
