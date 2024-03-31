@@ -1,12 +1,14 @@
 from datetime import date
+from typing import Annotated
+from pydantic import BaseModel, Field
 
 
 # User Entity
-class User:
+class User(BaseModel):
     id: str
     name: str
     email: str
-    password: str
+    password: Annotated[str, Field(exclude=True)]
     created_at: date
     groups: list[str]
 

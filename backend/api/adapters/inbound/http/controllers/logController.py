@@ -1,10 +1,10 @@
 from ninja import Router
-from django.http import HttpRequest, HttpResponse
-from backend.api.application.ports.logPort import ILogUseCase
-from backend.api.application.ports.runPort import IRunUseCase
-from backend.api.adapters.inbound.http.dtos.Log import LogCountResponse
-from backend.api.adapters.inbound.http.dtos.Run import RunResponse
-from backend.api.adapters.inbound.http.dtos.Auth import Error
+from django.http import HttpRequest
+from api.application.ports.logPort import ILogUseCase
+from api.application.ports.runPort import IRunUseCase
+from api.adapters.inbound.http.dtos.Log import LogCountResponse
+from api.adapters.inbound.http.dtos.Run import RunResponse
+from api.adapters.inbound.http.dtos.Auth import Error
 
 
 DEFAULT_SKIP = 0
@@ -23,11 +23,11 @@ class LogController:
         router = Router()
 
         @router.get(
-            "/{robotId}/runs/{run_id}/logs",
+            "/{robot_id}/runs/{run_id}/logs",
             response={200: RunResponse, 400: Error, 404: Error},
         )
         def get_logs(
-            request,
+            request: HttpRequest,
             robot_id,
             run_id,
             skip: int = DEFAULT_SKIP,
@@ -47,11 +47,11 @@ class LogController:
             }
 
         @router.get(
-            "/{robotId}/runs/{run_id}/logs/count",
+            "/{robot_id}/runs/{run_id}/logs/count",
             response={200: LogCountResponse, 400: Error, 404: Error},
         )
         def logs_count(
-            request,
+            request: HttpRequest,
             robot_id,
             run_id,
             skip: int = DEFAULT_SKIP,
@@ -65,3 +65,5 @@ class LogController:
             logs_count = self.logUseCase.count_logs(run_id)
 
             return {"message": "Logs count fetched successfully", "count": logs_count}
+
+        return router

@@ -1,16 +1,10 @@
-from ninja import ModelSchema, Schema
-from api.adapters.outbound.database.models.run import Run
-
-
-class RunSchema(ModelSchema):
-    class Config:
-        model = Run
-        model_fields = ["id", "robot", "task", "status", "started_at"]
+from ninja import Schema
+from api.domain.entities.run import Run
 
 
 class RunResponse(Schema):
     message: str
-    runs: list[RunSchema]
+    runs: list[Run]
 
 
 class RunCountResponse(Schema):

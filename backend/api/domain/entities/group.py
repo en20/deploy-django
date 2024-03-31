@@ -1,8 +1,9 @@
 from datetime import date
+from pydantic import BaseModel
 
 
 # Group entity
-class Group:
+class Group(BaseModel):
     id: str
     name: str
     description: str
