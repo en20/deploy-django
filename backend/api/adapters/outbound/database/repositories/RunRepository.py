@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class RunRepository(IRunRepository):
     def create(self, run: Run) -> Run:
         return self.schemaToRun(
-            Run.objects.create(
+            RunSchema.objects.create(
                 task=run.task,
                 robot=run.robot,
                 status=run.status,
@@ -17,7 +17,7 @@ class RunRepository(IRunRepository):
 
     def update(self, id, newRun: Run) -> bool:
         try:
-            Run.objects.filter(id=id).update(
+            RunSchema.objects.filter(id=id).update(
                 robot=newRun.robot,
                 task=newRun.task,
                 status=newRun.status,
@@ -28,25 +28,25 @@ class RunRepository(IRunRepository):
 
     def delete(self, id) -> bool:
         try:
-            Run.objects.filter(id=id).delete()
+            RunSchema.objects.filter(id=id).delete()
             return True
         except ObjectDoesNotExist:
             return False
 
     def findById(self, id) -> Run:
         try:
-            return self.schemaToRun(Run.objects.get(id=id))
+            return self.schemaToRun(RunSchema.objects.get(id=id))
         except ObjectDoesNotExist:
             return None
 
     def findAll(self, skip, limit) -> list[Run]:
-        return map(self.schemaToRun, Run.objects.all()[skip:limit])
+        return map(self.schemaToRun, RunSchema.objects.all()[skip:limit])
 
     def getRobotRuns(self, robotId) -> list[Run]:
-        return map(self.schemaToRun, Run.objects.filter(robot=robotId))
+        return map(self.schemaToRun, RunSchema.objects.filter(robot=robotId))
 
     def countRobotRuns(self, robotId) -> int:
-        return Run.objects.filter(robot=robotId).count()
+        return RunSchema.objects.filter(robot=robotId).count()
 
     def schemaToRun(schema: RunSchema) -> Run:
         return Run(

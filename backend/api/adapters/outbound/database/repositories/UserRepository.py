@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 class UserRepository(IUserRepository):
     def create(self, user: User) -> User:
         return self.schemaToUser(
-            User.objects.create(
+            UserSchema.objects.create(
                 name=user.name,
                 email=user.email,
                 password=user.password,
@@ -17,7 +17,7 @@ class UserRepository(IUserRepository):
 
     def update(self, id, newUser: User) -> bool:
         try:
-            User.objects.filter(id=id).update(
+            UserSchema.objects.filter(id=id).update(
                 name=newUser.name,
                 email=newUser.email,
                 password=newUser.password,
@@ -29,25 +29,25 @@ class UserRepository(IUserRepository):
 
     def delete(self, id) -> bool:
         try:
-            User.objects.filter(id=id).delete()
+            UserSchema.objects.filter(id=id).delete()
             return True
         except ObjectDoesNotExist:
             return False
 
     def findById(self, id) -> User:
         try:
-            return self.schemaToUser(User.objects.get(id=id))
+            return self.schemaToUser(UserSchema.objects.get(id=id))
         except ObjectDoesNotExist:
             return None
 
     def findByEmail(self, email: str) -> User:
         try:
-            return self.schemaToUser(User.objects.get(email=email))
+            return self.schemaToUser(UserSchema.objects.get(email=email))
         except ObjectDoesNotExist:
             return None
 
     def findAll(self, skip, limit) -> list[User]:
-        return map(self.schemaToUser, User.objects.all()[skip:limit])
+        return map(self.schemaToUser, UserSchema.objects.all()[skip:limit])
 
     def schemaToUser(schema: UserSchema) -> User:
         return User(
