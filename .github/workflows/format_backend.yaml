@@ -23,9 +23,4 @@ jobs:
         run: |
           black backend/
       
-      - name: Commit all changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_user_name: "UFC_AUTOBOTS"
-          commit_message: Aply formatting changes
-          branch: ${{ github.head_ref }}
+      
