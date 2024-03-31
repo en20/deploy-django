@@ -1,8 +1,8 @@
 from datetime import date
+from pydantic import BaseModel
 
 
-# Log entity
-class Log:
+class Log(BaseModel):
     id: str
     run: str
     content: str

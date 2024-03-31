@@ -24,3 +24,7 @@ class IRobotRepository(ABC):
     @abstractmethod
     def findAll(self, skip, limit) -> list[Robot]:
         pass
+
+    @abstractmethod
+    def findAllByGroups(self, groups: list[str]) -> list[Robot]:
+        pass
