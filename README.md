@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# UFC Autobots 
 
-## Getting Started
+## Tecnologias usuadas 
 
-First, run the development server:
+- Nextjs
+- Typescript
+- TailwindCSs
+- Django 
+- Celery
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Como rodar a aplicação 
+
+- Clone o repositorio e entre na pasta
+
+```
+git clone https://github.com/marciocorreia/ufc_autobots.git
+cd ufc_autobots/next-django-api
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Instale as dependencias 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Adicione o arquivo .env no frontend (copie .env.example)
 
-## Learn More
+- Adicione o arquivo .env no backend (copie .env.example)
 
-To learn more about Next.js, take a look at the following resources:
+- Buildar e inicializar os containers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+cd backend/ 
+docker compose build
+docker compose up
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Entre no container e crie um usuario admin 
+```
+docker exec -it backend-api-1 sh 
+python manage.py createsuperuser 
+# user: admin
+# password: 12345
+```
 
-## Deploy on Vercel
+- Inicialize a seed do banco de dados 
+```
+python manage.py shell
+# dentro do shell 
+exec(open("./database_seed.py").read())
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Rode o servidor de testes
+```
+npm run dev
+```
