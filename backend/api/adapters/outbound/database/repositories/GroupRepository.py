@@ -5,21 +5,19 @@ from api.domain.entities.group import Group
 
 
 class GroupRepository(IGroupRepository):
-    def create(self, group: Group) -> Group:
+    def create(self, name: str, description: str) -> Group:
         return self.schemaToGroup(
             GroupSchema.objects.create(
-                name=group.name,
-                description=group.description,
-                created_at=group.created_at,
+                name=name,
+                description=description,
             )
         )
 
-    def update(self, id, newGroup: Group) -> bool:
+    def update(self, id, name: str, description: str) -> bool:
         try:
             GroupSchema.objects.filter(id=id).update(
-                name=newGroup.name,
-                description=newGroup.description,
-                created_at=newGroup.created_at,
+                name=name,
+                description=description,
             )
             return True
         except ObjectDoesNotExist:
@@ -36,7 +34,7 @@ class GroupRepository(IGroupRepository):
         return self.schemaToGroup(GroupSchema.objects.get(id=id))
 
     def findAll(self, skip, limit) -> list[Group]:
-        return map(self.schemaToGroup, GroupSchema.objects.all()[skip:limit])
+        return list(map(self.schemaToGroup, GroupSchema.objects.all()[skip:limit]))
 
-    def schemaToGroup(schema: GroupSchema) -> Group:
-        return Group(schema.id, schema.name, schema.description, schema.create_at)
+    def schemaToGroup(self, schema: GroupSchema) -> Group:
+        return Group(schema.id, schema.name, schema.description, str(schema.created_at))

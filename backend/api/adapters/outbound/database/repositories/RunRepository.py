@@ -6,21 +6,21 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Concrete Implementation for Run Repository
 class RunRepository(IRunRepository):
-    def create(self, run: Run) -> Run:
+    def create(self, task: str, robot: str, status: str) -> Run:
         return self.schemaToRun(
             RunSchema.objects.create(
-                task=run.task,
-                robot=run.robot,
-                status=run.status,
+                task=task,
+                robot=robot,
+                status=status,
             )
         )
 
-    def update(self, id, newRun: Run) -> bool:
+    def update(self, id: str, task: str, robot: str, status: str) -> bool:
         try:
             RunSchema.objects.filter(id=id).update(
-                robot=newRun.robot,
-                task=newRun.task,
-                status=newRun.status,
+                robot=robot,
+                task=task,
+                status=status,
             )
             return True
         except ObjectDoesNotExist:
@@ -40,15 +40,15 @@ class RunRepository(IRunRepository):
             return None
 
     def findAll(self, skip, limit) -> list[Run]:
-        return map(self.schemaToRun, RunSchema.objects.all()[skip:limit])
+        return list(map(self.schemaToRun, RunSchema.objects.all()[skip:limit]))
 
     def getRobotRuns(self, robotId) -> list[Run]:
-        return map(self.schemaToRun, RunSchema.objects.filter(robot=robotId))
+        return list(map(self.schemaToRun, RunSchema.objects.filter(robot=robotId)))
 
     def countRobotRuns(self, robotId) -> int:
         return RunSchema.objects.filter(robot=robotId).count()
 
-    def schemaToRun(schema: RunSchema) -> Run:
+    def schemaToRun(self, schema: RunSchema) -> Run:
         return Run(
-            schema.id, schema.robot.id, schema.task.id, schema.status, schema.created_at
+            schema.id, schema.robot.id, schema.task.id, schema.status, str(schema.created_at)
         )

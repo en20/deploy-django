@@ -5,23 +5,23 @@ from api.domain.entities.robot import Robot
 
 
 class RobotRepository(IRobotRepository):
-    def create(self, robot: Robot) -> Robot:
+    def create(self, name: str, description: str, section_name: str, group: str) -> Robot:
         return self.schemaToRobot(
             RobotSchema.objects.create(
-                name=robot.name,
-                description=robot.description,
-                section_name=robot.section_name,
-                group=robot.group,
+                name=name,
+                description=description,
+                section_name=section_name,
+                group=group,
             )
         )
 
-    def update(self, id, newRobot: Robot) -> bool:
+    def update(self, id: str, name: str, description: str, section_name: str, group: str) -> bool:
         try:
             RobotSchema.objects.filter(id=id).update(
-                name=newRobot.name,
-                description=newRobot.description,
-                section_name=newRobot.section_name,
-                group=newRobot.group,
+                name=name,
+                description=description,
+                section_name=section_name,
+                group=group,
             )
             return True
         except ObjectDoesNotExist:
@@ -38,20 +38,20 @@ class RobotRepository(IRobotRepository):
         return self.schemaToRobot(RobotSchema.objects.get(id=id))
 
     def findAll(self, skip, limit) -> list[Robot]:
-        return map(self.schemaToRobot, RobotSchema.objects.all()[skip:limit])
+        return list(map(self.schemaToRobot, RobotSchema.objects.all()[skip:limit]))
 
     def findAllByGroups(self, groups: list[str]) -> list[Robot]:
-        return map(
+        return list(map(
             self.schemaToRobot,
             filter(lambda robot: robot.group.id in groups, RobotSchema.objects.all()),
-        )
+        ))
 
-    def schemaToRobot(schema: RobotSchema) -> Robot:
+    def schemaToRobot(self, schema: RobotSchema) -> Robot:
         return Robot(
             schema.id,
             schema.name,
             schema.description,
             schema.section_name,
-            schema.group,
-            schema.created_at,
+            schema.group.id,
+            str(schema.created_at),
         )

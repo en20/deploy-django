@@ -6,11 +6,11 @@ from abc import ABC, abstractmethod
 class IUserRepository(ABC):
 
     @abstractmethod
-    def create(self, user: User) -> User:
+    def create(self, name: str, email: str, password: str) -> User:
         pass
 
     @abstractmethod
-    def update(self, id: str, newUser: User) -> bool:
+    def update(self, id, name: str, email: str, password: str) -> bool:
         pass
 
     @abstractmethod

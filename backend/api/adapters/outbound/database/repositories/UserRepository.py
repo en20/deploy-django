@@ -6,22 +6,21 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Concrete implementation for User Repository
 class UserRepository(IUserRepository):
-    def create(self, user: User) -> User:
+    def create(self, name: str, email: str, password: str) -> User:
         return self.schemaToUser(
             UserSchema.objects.create(
-                name=user.name,
-                email=user.email,
-                password=user.password,
+                name=name,
+                email=email,
+                password=password,
             )
         )
 
-    def update(self, id, newUser: User) -> bool:
+    def update(self, id, name: str, email: str, password: str) -> bool:
         try:
             UserSchema.objects.filter(id=id).update(
-                name=newUser.name,
-                email=newUser.email,
-                password=newUser.password,
-                groups=newUser.groups,
+                name=name,
+                email=email,
+                password=password,
             )
             return True
         except ObjectDoesNotExist:
@@ -47,14 +46,14 @@ class UserRepository(IUserRepository):
             return None
 
     def findAll(self, skip, limit) -> list[User]:
-        return map(self.schemaToUser, UserSchema.objects.all()[skip:limit])
+        return list(map(self.schemaToUser, UserSchema.objects.all()[skip:limit]))
 
-    def schemaToUser(schema: UserSchema) -> User:
+    def schemaToUser(self, schema: UserSchema) -> User:
         return User(
             schema.id,
             schema.name,
             schema.email,
             schema.password,
-            schema.created_at,
+            str(schema.created_at),
             [group.id for group in schema.groups.all()],
         )

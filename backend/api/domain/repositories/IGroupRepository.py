@@ -6,11 +6,11 @@ from abc import ABC, abstractmethod
 class IGroupRepository(ABC):
 
     @abstractmethod
-    def create(self, group: Group) -> Group:
+    def create(self, name: str, description: str) -> Group:
         pass
 
     @abstractmethod
-    def update(self, id: str, newGroup: Group) -> bool:
+    def update(self, id, name: str, description: str) -> bool:
         pass
 
     @abstractmethod
