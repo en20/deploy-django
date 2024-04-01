@@ -1,4 +1,3 @@
-from datetime import date
 from pydantic import BaseModel
 
 
@@ -8,7 +7,7 @@ class Robot(BaseModel):
     description: str
     section_name: str
     group: str
-    created_at: date
+    created_at: str
 
     def __init__(
         self,
@@ -17,14 +16,9 @@ class Robot(BaseModel):
         description: str,
         section_name: str,
         group: str,
-        created_at: date,
+        created_at: str,
     ) -> None:
-        self.id = id
-        self.name = name
-        self.description = description
-        self.section_name = section_name
-        self.group = group
-        self.created_at = created_at
+        super().__init__(id=id, name=name, description=description, section_name=section_name, group=group, created_at=created_at)
 
     def __str__(self) -> str:
         return f"{self.name}"

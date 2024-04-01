@@ -1,4 +1,3 @@
-from datetime import date
 from pydantic import BaseModel
 
 
@@ -7,16 +6,12 @@ class Run(BaseModel):
     robot: str
     task: str
     status: str
-    started_at: date
+    started_at: str
 
     def __init__(
-        self, id: str, robot: str, task: str, status: str, started_at: date
+        self, id: str, robot: str, task: str, status: str, started_at: str
     ) -> None:
-        self.id = id
-        self.robot = robot
-        self.task = task
-        self.status = status
-        self.started_at = started_at
+        super().__init__(id=id, robot=robot, task=task, status=status, started_at=started_at)
 
     def __str__(self) -> str:
         return f"{self.robot}"
