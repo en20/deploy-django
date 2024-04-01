@@ -33,7 +33,7 @@ class LogController:
             skip: int = DEFAULT_SKIP,
             limit: int = DEFAULT_LIMIT,
         ):
-            run = self.runUseCase.getRobotRun(robot_id, limit, skip)
+            run = self.runUseCase.getRobotRuns(robot_id, limit, skip)
 
             if run is None:
                 return 404, {"error": "this run does not exist"}
@@ -57,7 +57,7 @@ class LogController:
             skip: int = DEFAULT_SKIP,
             limit: int = DEFAULT_LIMIT,
         ):
-            run = self.runUseCase.getRobotRun(robot_id, limit, skip)
+            run = self.runUseCase.getRobotRuns(robot_id, limit, skip)
 
             if run is None:
                 return 404, {"error": "This run does not exist"}

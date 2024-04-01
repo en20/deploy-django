@@ -2,7 +2,7 @@ from ninja import Router
 from django.http import HttpRequest, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from api.adapters.inbound.http.dtos.Auth import Error
-from api.adapters.inbound.http.dtos.Robot import RobotResponse
+from api.adapters.inbound.http.dtos.Robot import RobotResponse, RobotsResponse
 from api.application.ports.tokenPort import ITokenUseCase
 from api.application.ports.robotPort import IRobotUseCase
 
@@ -20,7 +20,7 @@ class RobotController:
     def get_router(self):
         router = Router()
 
-        @router.get("/", response=RobotResponse)
+        @router.get("/", response=RobotsResponse)
         def robots(request: HttpRequest, response: HttpResponse):
             access_token = request.auth
 

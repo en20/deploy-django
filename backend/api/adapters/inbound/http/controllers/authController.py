@@ -22,12 +22,6 @@ class AuthController:
         self.tokenUseCase = tokenUseCase
         self.userUseCase = userUseCase
 
-    def extract_groups(user):
-        groups = []
-        for group in user.groups.all():
-            groups.append(group.id)
-        return groups
-
     def get_routes(self):
         router = Router()
 
@@ -48,13 +42,11 @@ class AuthController:
                 if user.password != credentials.password:
                     return 400, {"error": "Senha incorreta"}
 
-                user_groups = self.extract_groups(user)
-
-                access_token = self.tokenUseCase.generate_jwt_token(
-                    user.id, user.email, user_groups, "access_token"
+                access_token = self.tokenUseCase.generate_token(
+                    user.id, user.email, user.groups, "access_token"
                 )
-                refresh_token = self.tokenUseCase.generate_jwt_token(
-                    user.id, user.email, user_groups, "refresh_token"
+                refresh_token = self.tokenUseCase.generate_token(
+                    user.id, user.email, user.groups, "refresh_token"
                 )
 
                 response.set_cookie(
@@ -74,7 +66,7 @@ class AuthController:
         def decode(request: HttpRequest, response: HttpResponse):
             access_token = request.auth
 
-            payload = self.tokenUseCase.decode_jwt_token(access_token)
+            payload = self.tokenUseCase.decode_token(access_token)
 
             return {
                 "message": "Token decoded successfully",
@@ -89,13 +81,13 @@ class AuthController:
         def refresh(request):
             refresh_token = request.auth
 
-            _, message = self.tokenUseCase.verify_jwt_token(
+            _, message = self.tokenUseCase.verify_token(
                 refresh_token, "refresh_token"
             )
 
-            payload = self.tokenUseCase.decode_jwt_token(refresh_token)
+            payload = self.tokenUseCase.decode_token(refresh_token)
 
-            access_token = self.tokenUseCase.generate_jwt_token(
+            access_token = self.tokenUseCase.generate_token(
                 payload["user"], payload["email"], payload["groups"], "access_token"
             )
 

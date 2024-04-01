@@ -9,8 +9,8 @@ class RunUseCase(IRunUseCase):
     def __init__(self, runRepository: RunRepository) -> None:
         self.runRepository = runRepository
 
-    def getRobotRun(self, robot, skip, limit) -> list[Run]:
-        return self.runRepository.getRobotRuns(robot=robot)[skip:limit]
+    def getRobotRuns(self, robot, skip, limit) -> list[Run]:
+        return self.runRepository.getRobotRuns(robot)
 
     def countRobotRuns(self, robot) -> int:
         return self.runRepository.countRobotRuns(robot)
