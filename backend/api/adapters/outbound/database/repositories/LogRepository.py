@@ -6,21 +6,21 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Concrete implementation for Log repository
 class LogRepository(ILogRepository):
-    def create(self, log: Log) -> Log:
+    def create(self, run: str, content: str, level: str) -> Log:
         return self.schemaToLog(
             LogSchema.objects.create(
-                run=log.run,
-                content=log.content,
-                level=log.level,
+                run=run,
+                content=content,
+                level=level,
             )
         )
 
-    def update(self, id, newLog: Log) -> bool:
+    def update(self, id: str, run: str, content: str, level: str) -> bool:
         try:
             LogSchema.objects.filter(id=id).update(
-                run=newLog.run,
-                content=newLog.content,
-                level=newLog.level,
+                run=run,
+                content=content,
+                level=level,
             )
             return True
         except ObjectDoesNotExist:
@@ -37,16 +37,16 @@ class LogRepository(ILogRepository):
         return self.schemaToLog(LogSchema.objects.get(id=id))
 
     def findAll(self, skip, limit) -> list[Log]:
-        return map(self.schemaToLog, LogSchema.objects.all()[skip:limit])
+        return list(map(self.schemaToLog, LogSchema.objects.all()[skip:limit]))
 
     def get_logs_by_run_id(self, run_id) -> list[Log]:
-        return map(self.schemaTolog, LogSchema.objects.filter(run=run_id))
+        return list(map(self.schemaTolog, LogSchema.objects.filter(run=run_id)))
 
     def count_logs_by_run_id(self, run_id) -> int:
         return LogSchema.objects.filter(run=run_id).count()
 
-    def schemaToLog(schema: LogSchema) -> Log:
+    def schemaToLog(self, schema: LogSchema) -> Log:
         return Log(
-            schema.id, schema.run, schema.content, schema.level, schema.executed_at
+            schema.id, schema.run.id, schema.content, schema.level, str(schema.executed_at)
         )
 

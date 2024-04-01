@@ -4,7 +4,7 @@ from api.domain.entities.run import Run
 
 class IRunUseCase(ABC):
     @abstractmethod
-    def getRobotRun(self, robot, skip, limit) -> list[Run]:
+    def getRobotRuns(self, robot, skip, limit) -> list[Run]:
         pass
 
     @abstractmethod

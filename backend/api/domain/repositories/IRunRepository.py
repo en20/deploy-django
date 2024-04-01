@@ -5,11 +5,11 @@ from abc import ABC, abstractmethod
 # Interface for Run repository
 class IRunRepository(ABC):
     @abstractmethod
-    def create(self, run: Run) -> Run:
+    def create(self, task: str, robot: str, status: str) -> Run:
         pass
 
     @abstractmethod
-    def update(self, id: str, newRun: Run) -> bool:
+    def update(self, id: str, task: str, robot: str, status: str) -> bool:
         pass
 
     @abstractmethod

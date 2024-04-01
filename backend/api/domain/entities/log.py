@@ -1,4 +1,3 @@
-from datetime import date
 from pydantic import BaseModel
 
 
@@ -7,16 +6,12 @@ class Log(BaseModel):
     run: str
     content: str
     level: str
-    executed_at: date
+    executed_at: str
 
     def __init__(
-        self, id: str, run: str, content: str, level: str, executed_at: date
+        self, id: str, run: str, content: str, level: str, executed_at: str
     ) -> None:
-        self.id = id
-        self.run = run
-        self.content = content
-        self.level = level
-        self.executed_at = executed_at
+        super().__init__(id=id, run=run, content=content, executed_at=executed_at)
 
     def __str__(self) -> str:
         return f"{self.run}"

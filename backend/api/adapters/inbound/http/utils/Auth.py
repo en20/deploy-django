@@ -24,7 +24,7 @@ class CookieKey(APIKeyCookie):
 
 class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
-        valid, message = TokenUseCase().verify_jwt_token(token, "access_token")
+        valid, message = TokenUseCase().verify_token(token, "access_token")
 
         if not valid:
             raise InvalidToken(message)

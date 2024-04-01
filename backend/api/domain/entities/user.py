@@ -1,4 +1,3 @@
-from datetime import date
 from typing import Annotated
 from pydantic import BaseModel, Field
 
@@ -9,7 +8,7 @@ class User(BaseModel):
     name: str
     email: str
     password: Annotated[str, Field(exclude=True)]
-    created_at: date
+    created_at: str
     groups: list[str]
 
     def __init__(
@@ -18,15 +17,17 @@ class User(BaseModel):
         name: str,
         email: str,
         password: str,
-        created_at: date,
+        created_at: str,
         groups: list[str],
     ) -> None:
-        self.id = id
-        self.name = name
-        self.email = email
-        self.password = password
-        self.created_at = created_at
-        self.groups = groups
+        super().__init__(
+            id=id,
+            name=name,
+            email=email,
+            password=password,
+            created_at=created_at,
+            groups=groups,
+        )
 
     def __str__(self) -> str:
         return f"{self.name}"

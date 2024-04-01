@@ -24,7 +24,7 @@ class RunController:
             skip: int = DEFAULT_SKIP,
             limit: int = DEFAULT_LIMIT,
         ):
-            robot_runs = self.useCase.getRobotRun(robotId, skip, limit)
+            robot_runs = self.useCase.getRobotRuns(robotId, skip, limit)
 
             if len(robot_runs) == 0:
                 return {

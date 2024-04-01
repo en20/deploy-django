@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container-wrapper {
+    @apply w-full px-4 lg:px-8 mx-auto min-[768px]:max-w-[760px] min-[992px]:max-w-[960px] min-[1200px]:max-w-[1400px] min-[1300px]:max-w-[1300px] 2xl:max-w-[1800px];
+  }
+  .shadow-neon-primary {
+    box-shadow: 0 0 7px rgba(41, 121, 255, 0.25),
+      0 0 14px rgba(41, 121, 255, 0.15), 0 0 21px white;
+  }
+  .shadow-neon-button {
+    box-shadow: 0 0 7px rgba(41, 121, 255, 0.4),
+      0 0 14px rgba(41, 121, 255, 0.3), 0 0 21px white;
+  }
+}

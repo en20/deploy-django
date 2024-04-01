@@ -6,11 +6,11 @@ from abc import ABC, abstractmethod
 class ILogRepository(ABC):
 
     @abstractmethod
-    def create(self, log: Log) -> Log:
+    def create(self, run: str, content: str, level: str) -> Log:
         pass
 
     @abstractmethod
-    def update(self, id: str, newLog: Log) -> bool:
+    def update(self, id: str, run: str, content: str, level: str) -> bool:
         pass
 
     @abstractmethod
