@@ -7,7 +7,7 @@ from api.adapters.inbound.http.dtos.Auth import (
     DecodeResponse,
     AccessResponse,
     Error,
-    CsrfResponse
+    CsrfResponse,
 )
 from api.adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
 from django.middleware.csrf import get_token
@@ -29,36 +29,33 @@ class AuthController:
         def get_csrf(request: HttpRequest, response: HttpResponse):
             response.set_cookie("csrftoken", get_token(request))
 
-            return {
-                "message": "csrf token set successfully"
-            }
+            return {"message": "csrf token set successfully"}
 
         @router.post("/login", response={200: AccessResponse, 400: Error})
         def login(
             request: HttpRequest, response: HttpResponse, credentials: LoginRequestBody
         ):
-            try:
-                user = self.userUseCase.get_user_by_email(credentials.email)
-                if user.password != credentials.password:
-                    return 400, {"error": "Senha incorreta"}
+            user = self.userUseCase.get_user_by_email(credentials.email)
 
-                access_token = self.tokenUseCase.generate_token(
-                    user.id, user.email, user.groups, "access_token"
-                )
-                refresh_token = self.tokenUseCase.generate_token(
-                    user.id, user.email, user.groups, "refresh_token"
-                )
-
-                response.set_cookie(
-                    "refresh_token", refresh_token, httponly=True)
-
-                return {
-                    "message": "logged in successfully",
-                    "access_token": access_token,
-                }
-
-            except ObjectDoesNotExist:
+            if not user:
                 return 400, {"error": "Email invalido"}
+
+            if user.password != credentials.password:
+                return 400, {"error": "Senha incorreta"}
+
+            access_token = self.tokenUseCase.generate_token(
+                user.id, user.email, user.groups, "access_token"
+            )
+            refresh_token = self.tokenUseCase.generate_token(
+                user.id, user.email, user.groups, "refresh_token"
+            )
+
+            response.set_cookie("refresh_token", refresh_token, httponly=True)
+
+            return {
+                "message": "logged in successfully",
+                "access_token": access_token,
+            }
 
         @router.get(
             "/decode", auth=AuthBearer(), response={200: DecodeResponse, 401: Error}
@@ -81,9 +78,7 @@ class AuthController:
         def refresh(request):
             refresh_token = request.auth
 
-            _, message = self.tokenUseCase.verify_token(
-                refresh_token, "refresh_token"
-            )
+            _, message = self.tokenUseCase.verify_token(refresh_token, "refresh_token")
 
             payload = self.tokenUseCase.decode_token(refresh_token)
 
