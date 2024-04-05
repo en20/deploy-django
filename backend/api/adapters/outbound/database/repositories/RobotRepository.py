@@ -5,7 +5,9 @@ from api.domain.entities.robot import Robot
 
 
 class RobotRepository(IRobotRepository):
-    def create(self, name: str, description: str, section_name: str, group: str) -> Robot:
+    def create(
+        self, name: str, description: str, section_name: str, group: str
+    ) -> Robot:
         return self.schemaToRobot(
             RobotSchema.objects.create(
                 name=name,
@@ -15,7 +17,9 @@ class RobotRepository(IRobotRepository):
             )
         )
 
-    def update(self, id: str, name: str, description: str, section_name: str, group: str) -> bool:
+    def update(
+        self, id: str, name: str, description: str, section_name: str, group: str
+    ) -> bool:
         try:
             RobotSchema.objects.filter(id=id).update(
                 name=name,
@@ -41,10 +45,14 @@ class RobotRepository(IRobotRepository):
         return list(map(self.schemaToRobot, RobotSchema.objects.all()[skip:limit]))
 
     def findAllByGroups(self, groups: list[str]) -> list[Robot]:
-        return list(map(
-            self.schemaToRobot,
-            filter(lambda robot: robot.group.id in groups, RobotSchema.objects.all()),
-        ))
+        return list(
+            map(
+                self.schemaToRobot,
+                filter(
+                    lambda robot: robot.group.id in groups, RobotSchema.objects.all()
+                ),
+            )
+        )
 
     def schemaToRobot(self, schema: RobotSchema) -> Robot:
         return Robot(

@@ -3,7 +3,6 @@ from api.domain.entities.log import Log
 from api.domain.repositories.ILogRepository import ILogRepository
 
 
-
 class LogUseCase(ILogUseCase):
     logRepository: ILogRepository
 
