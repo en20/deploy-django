@@ -47,16 +47,16 @@ export default function LoginForm() {
     }
   }
 
-  useEffect(() => {
-    const setCsrf = async () => {
-      try {
-        await authService.getCsrf();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    setCsrf();
-  }, []);
+  // useEffect(() => {
+  //   const setCsrf = async () => {
+  //     try {
+  //       await authService.getCsrf();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   setCsrf();
+  // }, []);
 
   return (
     <form

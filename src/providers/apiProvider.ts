@@ -110,4 +110,4 @@ class ApiProvider {
 }
 
 export const apiProvider = new ApiProvider(API_URL);
-export const localProvider = new ApiProvider(LOCAL_URL);
+export const localProvider = new ApiProvider(API_URL);
