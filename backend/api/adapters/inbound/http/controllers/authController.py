@@ -11,7 +11,6 @@ from api.adapters.inbound.http.dtos.Auth import (
 )
 from api.adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
 from django.middleware.csrf import get_token
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class AuthController:
