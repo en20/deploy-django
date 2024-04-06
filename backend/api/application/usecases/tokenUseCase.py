@@ -52,7 +52,7 @@ class TokenUseCase(ITokenUseCase):
     def verify_token(self, token: str, token_type: str) -> tuple[bool, str]:
         try:
             payload = jwt.decode(token, self.public_key, algorithms="RS256")
-
+      
             if payload["type"] != token_type:
                 return (False, "Incorrect token type")
 
