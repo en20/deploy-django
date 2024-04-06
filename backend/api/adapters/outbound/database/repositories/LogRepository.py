@@ -47,6 +47,9 @@ class LogRepository(ILogRepository):
 
     def schemaToLog(self, schema: LogSchema) -> Log:
         return Log(
-            schema.id, schema.run.id, schema.content, schema.level, str(schema.executed_at)
+            schema.id,
+            schema.run.id,
+            schema.content,
+            schema.level,
+            str(schema.executed_at),
         )
-

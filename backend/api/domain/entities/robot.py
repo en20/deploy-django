@@ -18,7 +18,14 @@ class Robot(BaseModel):
         group: str,
         created_at: str,
     ) -> None:
-        super().__init__(id=id, name=name, description=description, section_name=section_name, group=group, created_at=created_at)
+        super().__init__(
+            id=id,
+            name=name,
+            description=description,
+            section_name=section_name,
+            group=group,
+            created_at=created_at,
+        )
 
     def __str__(self) -> str:
         return f"{self.name}"

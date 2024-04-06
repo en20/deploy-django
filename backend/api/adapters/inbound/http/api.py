@@ -5,7 +5,7 @@ from api.adapters.inbound.http.routes.log import LogRouter
 from api.adapters.inbound.http.routes.robot import RobotRouter
 from api.adapters.inbound.http.utils.Auth import InvalidToken, InvalidCookie, AuthBearer
 
-api = NinjaAPI(csrf=True)
+api = NinjaAPI()
 
 
 @api.exception_handler(InvalidToken)
