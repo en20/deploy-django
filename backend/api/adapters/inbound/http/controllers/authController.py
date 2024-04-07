@@ -77,9 +77,6 @@ class AuthController:
         def refresh(request):
             refresh_token = request.auth
 
-            _, message = self.tokenUseCase.verify_token(
-                refresh_token, "refresh_token")
-
             payload = self.tokenUseCase.decode_token(refresh_token)
 
             access_token = self.tokenUseCase.generate_token(
