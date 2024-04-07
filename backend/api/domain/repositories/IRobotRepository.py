@@ -6,11 +6,15 @@ from abc import ABC, abstractmethod
 class IRobotRepository(ABC):
 
     @abstractmethod
-    def create(self, name: str, description: str, section_name: str, group: str) -> Robot:
+    def create(
+        self, name: str, description: str, section_name: str, group: str
+    ) -> Robot:
         pass
 
     @abstractmethod
-    def update(self, id: str, name: str, description: str, section_name: str, group: str) -> bool:
+    def update(
+        self, id: str, name: str, description: str, section_name: str, group: str
+    ) -> bool:
         pass
 
     @abstractmethod

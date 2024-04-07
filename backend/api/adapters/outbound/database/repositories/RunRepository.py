@@ -50,5 +50,9 @@ class RunRepository(IRunRepository):
 
     def schemaToRun(self, schema: RunSchema) -> Run:
         return Run(
-            schema.id, schema.robot.id, schema.task.id, schema.status, str(schema.created_at)
+            schema.id,
+            schema.robot.id,
+            schema.task.id,
+            schema.status,
+            str(schema.created_at),
         )
