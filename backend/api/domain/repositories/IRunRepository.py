@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 # Interface for Run repository
 class IRunRepository(ABC):
     @abstractmethod
-    def create(self, task: str, robot: str, status: str) -> Run:
+    def create(self, task: str, robot: str) -> Run:
         pass
 
     @abstractmethod

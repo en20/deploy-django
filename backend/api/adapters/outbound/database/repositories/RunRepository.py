@@ -6,12 +6,11 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Concrete Implementation for Run Repository
 class RunRepository(IRunRepository):
-    def create(self, task: str, robot: str, status: str) -> Run:
+    def create(self, task: str, robot: str) -> Run:
         return self.schemaToRun(
             RunSchema.objects.create(
                 task=task,
                 robot=robot,
-                status=status,
             )
         )
 
