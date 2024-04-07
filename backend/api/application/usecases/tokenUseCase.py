@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 import jwt
 from datetime import datetime, timedelta, timezone, date
-
+from jwt.exceptions import ExpiredSignatureError, InvalidTokenError, DecodeError, InvalidSignatureError
 
 class TokenUseCase(ITokenUseCase):
     private_key: str
@@ -58,14 +58,14 @@ class TokenUseCase(ITokenUseCase):
 
             return (True, "valid token")
 
-        except jwt.InvalidSignatureError:
+        except InvalidSignatureError:
             return (False, "invalid signature")
 
-        except jwt.ExpiredSignatureError:
+        except ExpiredSignatureError:
             return (False, "token expired")
 
-        except jwt.InvalidTokenError:
+        except InvalidTokenError:
             return (False, "invalid token")
 
-        except jwt.DecodeError:
+        except DecodeError:
             return (False, "failed to decoded")
