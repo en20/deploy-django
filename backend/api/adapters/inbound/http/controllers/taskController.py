@@ -2,7 +2,6 @@ from ninja import Router, Body, File
 from ninja.files import UploadedFile
 from django.http import HttpRequest
 from api.application.ports.taskPort import ITaskUseCase
-from api.application.ports.runPort import IRunUseCase
 from api.application.ports.robotPort import IRobotUseCase
 from api.adapters.inbound.http.dtos.Auth import Error
 from api.adapters.inbound.http.dtos.Task import (
@@ -16,17 +15,14 @@ from typing import Any, Optional
 
 
 class TaskController:
-    runUseCase: IRunUseCase
     taskUseCase: ITaskUseCase
     robotUseCase: IRobotUseCase
 
     def __init__(
         self,
-        runUseCase: IRunUseCase,
         taskUseCase: ITaskUseCase,
         robotUseCase: IRobotUseCase,
     ) -> None:
-        self.runUseCase = runUseCase
         self.taskUseCase = taskUseCase
         self.robotUseCase = robotUseCase
 
