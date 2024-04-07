@@ -9,12 +9,24 @@ from api.tests.unit.mocks.userRepository import MockUserRepository
 import json
 from unittest.mock import patch, MagicMock
 from api.adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
-from api.adapters.inbound.http.utils.Auth import InvalidToken
+from api.adapters.inbound.http.utils.Auth import InvalidToken, InvalidCookie
+from datetime import timedelta
 
 mockRepository = MockUserRepository()
-authController = AuthController(TokenUseCase(), UserUseCase(mockRepository))
+tokenUseCase = TokenUseCase()
+authController = AuthController(tokenUseCase, UserUseCase(mockRepository))
 
 api = NinjaAPI(csrf=False, urls_namespace="test-api")
+
+@api.exception_handler(InvalidToken)
+def handle_token_exception(request, exc):
+    return api.create_response(request, {"error": exc.message}, status=401)
+
+
+@api.exception_handler(InvalidCookie)
+def handle_cookie_exception(request, exc):
+    return api.create_response(request, {"error": exc.message}, status=401)
+
 api.add_router("/auth/", authController.get_routes())
 urlpatterns = [path("api/", api.urls)]
 
@@ -24,7 +36,6 @@ class AuthenticationTestCase(TestCase):
     client: Client()
 
     def setUp(self):
-        self.client = Client()
         # Clean up mock repository
         for user in mockRepository.findAll(0, 0):
             mockRepository.delete(user.id)
@@ -89,42 +100,140 @@ class AuthenticationTestCase(TestCase):
         # Assert
         self.assertNotEqual(csrf_token, '')
     
-    def decode_token_mock(self):
-       payload = {
-            "user":"user123",
-            "email":"valid@gmail.com",
-            "groups": ["group1","group2"],
-        }
-       
-       return payload
-    
-    # Que funçãozinha viu...
     def test_valid_access_token(self):
-        """ Ensure that the access token is a valid token """
+        """ Ensure the access token is a valid token """
         
-        access_token = 'Bearer ' + 'access_token'
+        # Arrange
+        user = mockRepository.create("Jonn", "john@gmail.com", "galindo")
         
-        with patch('api.application.usecases.tokenUseCase.TokenUseCase.decode_token') as decode_token:
-           decode_token.side_effect = self.decode_token_mock()
-           response = self.client.get("http://localhost:8000/api/auth/decode", headers={'AUTHORIZATION': access_token}) 
+        response = self.client.post(
+            "http://localhost:8000/api/auth/login",
+            json.dumps({"email": user.email, "password": user.password}),
+            content_type="application/json",
+        )
+        
+        access_token = response.json()["access_token"]
+        
+        response = self.client.get("http://localhost:8000/api/auth/decode", HTTP_AUTHORIZATION= f"Bearer {access_token}") 
         
         # Assert
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {
-            "message":"Token decoded successfully",
-            "user":"user123",
-            "email":"valid@gmail.com",
-            "groups": ["group1", "group2"]
+            "message": "Token decoded successfully", 
+            "user": user.id,
+            "email": user.email,
+            "groups": user.groups
         })
         
     def test_invalid_access_token(self):
-        """ Ensure that the token is invalid """
+        """ Ensure the token is invalid """
         
-        # Mocked invalid token
-        token_mock = 'Bearer' + 'invalid_token'
+        # Arrange
+        invalid_access_token = "invalid_access_token"
         
         # Act
-        response = self.client.get("http://localhost:8000/api/auth/decode", headers={'AUTHORIZATION': token_mock})
+        response = self.client.get("http://localhost:8000/api/auth/decode", HTTP_AUTHORIZATION=f"Bearer {invalid_access_token}")
              
         # Assert 
         self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json(), {"error" : "invalid token"})
+        
+    def test_expired_access_token(self):
+        """ Ensure the token does not give access to the endpoint """
+        
+        # Arrange
+        tokenUseCase.access_token_expiration = timedelta(seconds=0)
+        
+        user = mockRepository.create("Jonn", "john@gmail.com", "galindo")
+        
+        response = self.client.post(
+            "http://localhost:8000/api/auth/login",
+            json.dumps({"email": user.email, "password": user.password}),
+            content_type="application/json",
+        )
+        
+        access_token = response.json()["access_token"]
+        
+        # Act
+        response = self.client.get("http://localhost:8000/api/auth/decode", HTTP_AUTHORIZATION= f"Bearer {access_token}")
+        
+        # Assert
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json(), {"error" : "token expired"})
+        
+        # Change back to 30 minutes
+        tokenUseCase.access_token_expiration = timedelta(minutes=30)
+        
+    def test_refresh_endpoint(self):
+        """ Ensure the token refreshes successfully """
+        
+        # Arrange
+        tokenUseCase.refresh_token_expiration = timedelta(days=14)
+        
+        user = mockRepository.create("Jonn", "john@gmail.com", "galindo")
+        
+        response = self.client.post(
+            "http://localhost:8000/api/auth/login",
+            json.dumps({"email": user.email, "password": user.password}),
+            content_type="application/json",
+        )
+         
+        refresh_token = response.cookies["refresh_token"].value
+        
+        # Act
+        self.client.cookies.load({"refresh_token": refresh_token})
+        refresh_response = self.client.get("http://localhost:8000/api/auth/refresh")
+        
+        access_token = refresh_response.json()["access_token"]
+
+        decode_response = self.client.get("http://localhost:8000/api/auth/decode", HTTP_AUTHORIZATION= f"Bearer {access_token}")
+       
+        # Assert
+        self.assertEqual(refresh_response.status_code, 200)
+        self.assertEqual(decode_response.status_code, 200)
+        self.assertEqual(refresh_response.json()["message"], "Token refreshed successfully")
+        self.assertEqual(decode_response.json(), {
+            "message": "Token decoded successfully", 
+            "user": user.id,
+            "email": user.email,
+            "groups": user.groups
+        })
+        
+    def test_invalid_refresh_token(self):
+        """ Ensure refresh does not work without the cookie """
+            
+        # Act
+        response = self.client.get("http://localhost:8000/api/auth/refresh")
+        
+        # Assert
+        self.assertEqual(response.json()["error"], 'cookie not found') 
+        
+    def test_expired_refresh_token(self):
+        """ Ensure the endpoint doesn't work when the refresh token is expired """
+        
+        # Arrange
+        tokenUseCase.refresh_token_expiration = timedelta(seconds=0)
+        
+        user = mockRepository.create("Jonn", "john@gmail.com", "galindo")
+        
+        response = self.client.post(
+            "http://localhost:8000/api/auth/login",
+            json.dumps({"email": user.email, "password": user.password}),
+            content_type="application/json",
+        )
+        
+        refresh_token = response.cookies["refresh_token"].value
+
+        print(refresh_token)
+        
+        # Act
+        self.client.cookies.load({"refresh_token": refresh_token})
+
+        refresh_response = self.client.get("http://localhost:8000/api/auth/refresh")
+        
+        # Assert
+        self.assertEqual(refresh_response.status_code, 401)
+        self.assertEqual(refresh_response.json()["error"], "token expired")
+        
+        # Change back to 14 days
+        tokenUseCase.refresh_token_expiration = timedelta(days=14)
