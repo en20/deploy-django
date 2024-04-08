@@ -4,7 +4,13 @@ from dotenv import load_dotenv
 import os
 import jwt
 from datetime import datetime, timedelta, timezone, date
-from jwt.exceptions import ExpiredSignatureError, InvalidTokenError, DecodeError, InvalidSignatureError
+from jwt.exceptions import (
+    ExpiredSignatureError,
+    InvalidTokenError,
+    DecodeError,
+    InvalidSignatureError,
+)
+
 
 class TokenUseCase(ITokenUseCase):
     private_key: str
@@ -52,7 +58,7 @@ class TokenUseCase(ITokenUseCase):
     def verify_token(self, token: str, token_type: str) -> tuple[bool, str]:
         try:
             payload = jwt.decode(token, self.public_key, algorithms="RS256")
-      
+
             if payload["type"] != token_type:
                 return (False, "Incorrect token type")
 
