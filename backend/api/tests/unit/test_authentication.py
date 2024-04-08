@@ -6,7 +6,7 @@ from api.adapters.inbound.http.utils.Auth import InvalidToken, InvalidCookie
 from django.test import TestCase
 from django.test.utils import override_settings
 from ninja import NinjaAPI
-from django.urls import path, reverse_lazy
+from django.urls import path
 from datetime import timedelta
 import json
 
@@ -87,15 +87,11 @@ class AuthenticationTestCase(TestCase):
 
         # Act
         response = self.client.get("/api/auth/csrf")
+        csrf_token = response.cookies["csrftoken"]
 
         # Assert
         self.assertEqual(response.status_code, 200)
         self.assertTrue("csrftoken" in response.cookies)
-
-        # Act
-        csrf_token = response.cookies["csrftoken"]
-
-        # Assert
         self.assertNotEqual(csrf_token, "")
 
     def test_valid_access_token(self):
