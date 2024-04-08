@@ -11,7 +11,6 @@ from api.adapters.inbound.http.dtos.Auth import (
 )
 from api.adapters.inbound.http.utils.Auth import cookieAuth, AuthBearer
 from django.middleware.csrf import get_token
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class AuthController:
@@ -77,8 +76,6 @@ class AuthController:
         )
         def refresh(request):
             refresh_token = request.auth
-
-            _, message = self.tokenUseCase.verify_token(refresh_token, "refresh_token")
 
             payload = self.tokenUseCase.decode_token(refresh_token)
 

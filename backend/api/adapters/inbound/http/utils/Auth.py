@@ -19,6 +19,10 @@ class CookieKey(APIKeyCookie):
         if not key:
             raise InvalidCookie("cookie not found")
 
+        valid, message = TokenUseCase().verify_token(key, self.param_name)
+        if not valid:
+            raise InvalidCookie(message)
+
         return key
 
 
