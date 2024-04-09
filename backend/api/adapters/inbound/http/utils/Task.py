@@ -15,6 +15,6 @@ def validate_request(*, key, schemas):
                     print(f"Failed to parse: {schema.__name__}")
                     continue
 
-            return 400, {"error": "Unknown shema provided"}
+            return 400, {"error": "Unknown schema provided"}
         return wrapper
     return decorator
