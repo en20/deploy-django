@@ -27,6 +27,9 @@ jobs:
       #- name: Run migrations
         #run: python backend/manage.py migrate
       
-      #- name: Run tests
-        #run : python backend/manage.py test
-
+      - name: Run unit tests
+        env:
+          PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+        run : python backend/manage.py test backend/api/tests/unit --settings=server.test_settings
+        
