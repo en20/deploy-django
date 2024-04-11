@@ -2,36 +2,12 @@ from api.adapters.inbound.http.controllers.authController import AuthController
 from api.application.usecases.userUseCase import UserUseCase
 from api.application.usecases.tokenUseCase import TokenUseCase
 from api.tests.unit.mocks.userRepository import MockUserRepository
-from api.adapters.inbound.http.utils.Auth import InvalidToken, InvalidCookie
 from django.test import TestCase
 from django.test.utils import override_settings
-from ninja import NinjaAPI
-from django.urls import path
 from datetime import timedelta
 import json
+from api.tests.testApi import mockRepository, tokenUseCase
 
-mockRepository = MockUserRepository()
-tokenUseCase = TokenUseCase()
-authController = AuthController(tokenUseCase, UserUseCase(mockRepository))
-
-api = NinjaAPI(csrf=False, urls_namespace="test-api")
-
-
-@api.exception_handler(InvalidToken)
-def handle_token_exception(request, exc):
-    return api.create_response(request, {"error": exc.message}, status=401)
-
-
-@api.exception_handler(InvalidCookie)
-def handle_cookie_exception(request, exc):
-    return api.create_response(request, {"error": exc.message}, status=401)
-
-
-api.add_router("/auth/", authController.get_routes())
-urlpatterns = [path("api/", api.urls)]
-
-
-@override_settings(ROOT_URLCONF=__name__)
 class AuthenticationTestCase(TestCase):
     def setUp(self):
         # Clean up mock repository

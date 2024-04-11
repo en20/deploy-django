@@ -46,7 +46,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
-ROOT_URLCONF = "server.urls"
+ROOT_URLCONF = "api.tests.testApi"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
