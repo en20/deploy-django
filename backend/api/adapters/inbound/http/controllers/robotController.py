@@ -21,17 +21,17 @@ class RobotController:
         router = Router()
 
         @router.get("/", response=RobotsResponse)
-        def robots(request: HttpRequest, response: HttpResponse):
+        def robots(request: HttpRequest, response: HttpResponse): 
             access_token = request.auth
 
             payload = self.tokenUseCase.decode_token(access_token)
 
             all_bots = self.robotUseCase.get_all_robots_by_groups(payload["groups"])
 
-            if len(all_bots) == 0:
+            if all_bots is None:
                 return {
                     "message": "There are no robots avaliable",
-                    "robots": list(all_bots),
+                    "robots": [],
                 }
 
             return {
