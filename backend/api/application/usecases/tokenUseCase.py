@@ -60,7 +60,7 @@ class TokenUseCase(ITokenUseCase):
             payload = jwt.decode(token, self.public_key, algorithms="RS256")
 
             if payload["type"] != token_type:
-                return (False, "Incorrect token type")
+                return (False, "incorrect token type")
 
             return (True, "valid token")
 
@@ -72,6 +72,3 @@ class TokenUseCase(ITokenUseCase):
 
         except InvalidTokenError:
             return (False, "invalid token")
-
-        except DecodeError:
-            return (False, "failed to decoded")
