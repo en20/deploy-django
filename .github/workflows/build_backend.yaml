@@ -21,7 +21,9 @@ jobs:
       
       - name: Install Dependencies
         run: |
+          pip install poetry==1.8.2.
           poetry add $(cat ./backend/requirements.txt)
+          poetry install
 
       #- name: Run migrations
         #run: python backend/manage.py migrate
