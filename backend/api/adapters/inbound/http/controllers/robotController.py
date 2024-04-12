@@ -21,7 +21,7 @@ class RobotController:
         router = Router()
 
         @router.get("/", response=RobotsResponse)
-        def robots(request: HttpRequest, response: HttpResponse): 
+        def robots(request: HttpRequest, response: HttpResponse):
             access_token = request.auth
 
             payload = self.tokenUseCase.decode_token(access_token)

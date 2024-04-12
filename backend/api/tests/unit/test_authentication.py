@@ -1,12 +1,8 @@
-from api.adapters.inbound.http.controllers.authController import AuthController
-from api.application.usecases.userUseCase import UserUseCase
-from api.application.usecases.tokenUseCase import TokenUseCase
-from api.tests.unit.mocks.userRepository import MockUserRepository
 from django.test import TestCase
-from django.test.utils import override_settings
 from datetime import timedelta
 import json
 from api.tests.testApi import mockRepository, tokenUseCase
+
 
 class AuthenticationTestCase(TestCase):
     def setUp(self):

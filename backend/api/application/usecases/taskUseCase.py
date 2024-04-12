@@ -17,7 +17,7 @@ class TaskUseCase(ITaskUseCase):
         self.robot_to_execution = {
             "url_robot": self.execute_url_robot,
             "test_robot": self.execute_test_robot,
-            "sipec_robot": self.execute_sipec_robot
+            "sipec_robot": self.execute_sipec_robot,
         }
 
     def map_robot_to_execution(self, robot, *args) -> Run:
@@ -45,8 +45,7 @@ class TaskUseCase(ITaskUseCase):
             robot, "Cadastrar novos usuários no django admin"
         )
 
-        execute_mock_bot.apply_async(
-            args=[file_path, run.id, data.name, data.password])
+        execute_mock_bot.apply_async(args=[file_path, run.id, data.name, data.password])
 
         return run
 

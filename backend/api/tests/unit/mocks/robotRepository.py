@@ -11,7 +11,9 @@ class MockRobotRepository(IRobotRepository):
         self.database.append(robot)
         return robot
 
-    def update(self, id, name: str, description: str, section_name: str, group: str) -> bool:
+    def update(
+        self, id, name: str, description: str, section_name: str, group: str
+    ) -> bool:
         for i in range(len(self.database)):
             current_robot = self.database[i]
             if current_robot.id == id:
