@@ -31,17 +31,17 @@ jobs:
           virtualenvs-create: false
           virtualenvs-in-project: false
       
-      - run: cd ./backend
       - name: Install Dependencies
+        working-directory: ./backend
         run: poetry install --no-interaction
 
       #- name: Run migrations
         #run: python backend/manage.py migrate
 
       - name: Run unit tests
-
+        working-directory: ./backend
         env:
           PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
           PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
-        run : python manage.py test backend/api/tests/unit --settings=server.test_settings
+        run : python manage.py test api/tests/unit --settings=server.test_settings
         
