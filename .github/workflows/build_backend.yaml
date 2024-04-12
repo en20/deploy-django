@@ -30,10 +30,10 @@ jobs:
           version: 1.8.2
           virtualenvs-create: false
           virtualenvs-in-project: false
-
+      
+      - run: cd ./backend
       - name: Install Dependencies
         run: poetry install --no-interaction
-      #  if: steps.cache.outputs.cache-hit != 'true'
 
       #- name: Run migrations
         #run: python backend/manage.py migrate
@@ -43,5 +43,5 @@ jobs:
         env:
           PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
           PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
-        run : python backend/manage.py test backend/api/tests/unit --settings=server.test_settings
+        run : python manage.py test backend/api/tests/unit --settings=server.test_settings
         
