@@ -21,7 +21,7 @@ class IRobotRepository(ABC):
 
     @abstractmethod
     def update(
-        self, id: str, name: str, description: str, section_name: str, group: str
+        self, id: str, name: str, description: str, section_name: str, group: GroupSchema
     ) -> bool:
         pass
 

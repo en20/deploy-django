@@ -23,7 +23,7 @@ class LogRepository(ILogRepository):
             level=level,
         )
 
-    def update(self, id: str, run: str, content: str, level: str) -> bool:
+    def update(self, id: str, run: RunSchema, content: str, level: str) -> bool:
         try:
             LogSchema.objects.filter(id=id).update(
                 run=run,

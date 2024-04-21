@@ -16,7 +16,7 @@ class ILogRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, id: str, run: str, content: str, level: str) -> bool:
+    def update(self, id: str, run: RunSchema, content: str, level: str) -> bool:
         pass
 
     @abstractmethod

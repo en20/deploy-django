@@ -15,7 +15,7 @@ class IRunRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, id: str, task: str, robot: str, status: str) -> bool:
+    def update(self, id: str, task: str, robot: RobotSchema, status: str) -> bool:
         pass
 
     @abstractmethod

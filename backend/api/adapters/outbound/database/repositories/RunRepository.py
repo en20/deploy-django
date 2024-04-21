@@ -21,7 +21,7 @@ class RunRepository(IRunRepository):
             robot=robot,
         )
 
-    def update(self, id: str, task: str, robot: str, status: str) -> bool:
+    def update(self, id: str, task: str, robot: RobotSchema, status: str) -> bool:
         try:
             RunSchema.objects.filter(id=id).update(
                 robot=robot,
