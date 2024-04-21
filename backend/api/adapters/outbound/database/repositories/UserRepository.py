@@ -17,10 +17,10 @@ class UserRepository(IUserRepository):
 
     def rawCreate(self, name: str, email: str, password: str) -> UserSchema:
         return UserSchema.objects.create(
-                name=name,
-                email=email,
-                password=password,
-            )
+            name=name,
+            email=email,
+            password=password,
+        )
 
     def update(self, id, name: str, email: str, password: str) -> bool:
         try:
