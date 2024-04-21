@@ -14,6 +14,13 @@ class RunRepository(IRunRepository):
             )
         )
 
+    def rawCreate(self, task: str, robot: str) -> RunSchema:
+        return RunSchema.objects.create(
+                task=task,
+                robot=robot,
+            )
+
+
     def update(self, id: str, task: str, robot: str, status: str) -> bool:
         try:
             RunSchema.objects.filter(id=id).update(

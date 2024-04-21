@@ -15,6 +15,13 @@ class LogRepository(ILogRepository):
             )
         )
 
+    def rawCreate(self, run: str, content: str, level: str) -> LogSchema:
+        return LogSchema.objects.create(
+                run=run,
+                content=content,
+                level=level,
+            )
+
     def update(self, id: str, run: str, content: str, level: str) -> bool:
         try:
             LogSchema.objects.filter(id=id).update(

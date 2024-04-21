@@ -17,6 +17,16 @@ class RobotRepository(IRobotRepository):
             )
         )
 
+    def rawCreate(
+self, name: str, description: str, section_name: str, group: str) -> RobotSchema:
+        return RobotSchema.objects.create(
+                name=name,
+                description=description,
+                section_name=section_name,
+                group=group,
+            )
+
+
     def update(
         self, id: str, name: str, description: str, section_name: str, group: str
     ) -> bool:

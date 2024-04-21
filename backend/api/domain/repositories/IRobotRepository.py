@@ -1,5 +1,6 @@
 from api.domain.entities.robot import Robot
 from abc import ABC, abstractmethod
+from api.adapters.outbound.database.models.robot import Robot as RobotSchema
 
 
 # Interface for Robot repository
@@ -9,6 +10,10 @@ class IRobotRepository(ABC):
     def create(
         self, name: str, description: str, section_name: str, group: str
     ) -> Robot:
+        pass
+
+    @abstractmethod
+    def rawCreate(self, name: str, description: str, section_name: str, group: str) -> RobotSchema:
         pass
 
     @abstractmethod
