@@ -7,10 +7,23 @@ type ExecutionResponse = {
 
 const executeRobot = async (
   robotId: string,
-  data: FormData,
+  name: string,
+  password: string,
+  file: File,
   setProgress: (progress: number) => void,
 ): Promise<ExecutionResponse> => {
   try {
+    const data = new FormData()
+
+    const TestBotData = {
+      robot_name: "test_robot",
+      name: name,
+      password: password
+    }
+    
+    data.set("data", JSON.stringify(TestBotData));
+    data.set("file", file);
+
     const response = await localProvider.post<ExecutionResponse, FormData>(
       `/api/robots/${robotId}/execute/mock-robot`,
       data,
@@ -34,9 +47,18 @@ const executeRobot = async (
 
 const executeRobot2 = async (
   robotId: string,
-  data: FormData,
+  url: string
 ): Promise<ExecutionResponse> => {
   try {
+    const data = new FormData()
+
+    const UrlBotData = {
+      robot_name: "url_robot",
+      url: url
+    }
+
+    data.set("data", JSON.stringify(UrlBotData))
+
     const response = await localProvider.post<ExecutionResponse, FormData>(
       `/api/robots/${robotId}/execute/access-url`,
       data,

@@ -33,12 +33,8 @@ export default function ExecuteSection2({ botId }: ExecuteSectionProps) {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const formData = new FormData();
-
-    formData.set("url", data.url);
-
     try {
-      const response = await executeRobotService.executeRobot2(botId, formData); 
+      const response = await executeRobotService.executeRobot2(botId, data.url); 
 
       alert(response.message)
 
