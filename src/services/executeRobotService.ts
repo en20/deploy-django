@@ -25,7 +25,7 @@ const executeRobot = async (
     data.set("file", file);
 
     const response = await localProvider.post<ExecutionResponse, FormData>(
-      `/api/robots/${robotId}/execute/mock-robot`,
+      `/api/robots/${robotId}/execute`,
       data,
       {
         headers: {
@@ -60,7 +60,7 @@ const executeRobot2 = async (
     data.set("data", JSON.stringify(UrlBotData))
 
     const response = await localProvider.post<ExecutionResponse, FormData>(
-      `/api/robots/${robotId}/execute/access-url`,
+      `/api/robots/${robotId}/execute`,
       data,
       {
         headers: {
