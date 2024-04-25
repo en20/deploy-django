@@ -13,13 +13,11 @@ class TestRequestValidation(SimpleTestCase):
         )
         # Assert
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            response.json()["message"], "Schema validated successfully")
+        self.assertEqual(response.json()["message"], "Schema validated successfully")
 
     def test_validate_schema_two(self):
         # Arrange
-        schema_two = dumps(
-            {"message": "schema_one", "number_list": [1, 2, 3, 4, 5]})
+        schema_two = dumps({"message": "schema_one", "number_list": [1, 2, 3, 4, 5]})
         # Act
         response = self.client.post(
             "/api/test/validate",
@@ -27,14 +25,12 @@ class TestRequestValidation(SimpleTestCase):
         )
         # Assert
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            response.json()["message"], "Schema validated successfully")
+        self.assertEqual(response.json()["message"], "Schema validated successfully")
 
     def test_validate_schema_three(self):
         # Arrange
         schema_three = dumps(
-            {"message": "schema_one", "dictionary": {
-                "arg1": "hello", "arg2": "world"}}
+            {"message": "schema_one", "dictionary": {"arg1": "hello", "arg2": "world"}}
         )
         # Act
         response = self.client.post(
@@ -43,8 +39,7 @@ class TestRequestValidation(SimpleTestCase):
         )
         # Assert
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            response.json()["message"], "Schema validated successfully")
+        self.assertEqual(response.json()["message"], "Schema validated successfully")
 
     def test_validate_invalid_schema(self):
         # Arrange
@@ -56,5 +51,4 @@ class TestRequestValidation(SimpleTestCase):
         )
         # Assert
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(
-            response.json()["error"], "Unknown schema provided")
+        self.assertEqual(response.json()["error"], "Unknown schema provided")

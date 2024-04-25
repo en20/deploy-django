@@ -1,15 +1,21 @@
 from api.domain.entities.run import Run
 from abc import ABC, abstractmethod
+from api.adapters.outbound.database.models.run import Run as RunSchema
+from api.adapters.outbound.database.models.robot import Robot as RobotSchema
 
 
 # Interface for Run repository
 class IRunRepository(ABC):
     @abstractmethod
-    def create(self, task: str, robot: str) -> Run:
+    def create(self, task: str, robot: RobotSchema) -> Run:
         pass
 
     @abstractmethod
-    def update(self, id: str, task: str, robot: str, status: str) -> bool:
+    def rawCreate(self, task: str, robot: RobotSchema) -> RunSchema:
+        pass
+
+    @abstractmethod
+    def update(self, id: str, task: str, robot: RobotSchema, status: str) -> bool:
         pass
 
     @abstractmethod

@@ -1,6 +1,8 @@
 from api.domain.repositories.IRobotRepository import IRobotRepository
 from api.domain.entities.robot import Robot
 from api.adapters.outbound.database.models.utils import id_generator
+from api.adapters.outbound.database.models.group import Group as GroupSchema
+from api.adapters.outbound.database.models.robot import Robot as RobotSchema
 
 
 class MockRobotRepository(IRobotRepository):
@@ -11,6 +13,8 @@ class MockRobotRepository(IRobotRepository):
         self.database.append(robot)
         return robot
 
+    def rawCreate(self, name: str, description: str, section_name: str, group: GroupSchema) -> RobotSchema:
+        pass
     def update(
         self, id, name: str, description: str, section_name: str, group: str
     ) -> bool:

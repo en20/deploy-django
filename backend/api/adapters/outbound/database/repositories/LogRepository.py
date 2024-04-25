@@ -2,11 +2,12 @@ from api.adapters.outbound.database.models.log import Log as LogSchema
 from api.domain.entities.log import Log
 from api.domain.repositories.ILogRepository import ILogRepository
 from django.core.exceptions import ObjectDoesNotExist
+from api.adapters.outbound.database.models.run import Run as RunSchema
 
 
 # Concrete implementation for Log repository
 class LogRepository(ILogRepository):
-    def create(self, run: str, content: str, level: str) -> Log:
+    def create(self, run: RunSchema, content: str, level: str) -> Log:
         return self.schemaToLog(
             LogSchema.objects.create(
                 run=run,
@@ -15,7 +16,14 @@ class LogRepository(ILogRepository):
             )
         )
 
-    def update(self, id: str, run: str, content: str, level: str) -> bool:
+    def rawCreate(self, run: RunSchema, content: str, level: str) -> LogSchema:
+        return LogSchema.objects.create(
+            run=run,
+            content=content,
+            level=level,
+        )
+
+    def update(self, id: str, run: RunSchema, content: str, level: str) -> bool:
         try:
             LogSchema.objects.filter(id=id).update(
                 run=run,
