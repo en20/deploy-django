@@ -62,3 +62,10 @@ class RunRepository(IRunRepository):
             schema.status,
             str(schema.started_at),
         )
+    
+    def runToSchema(self, run:Run) -> RunSchema:
+        try:
+            return RunSchema.objects.get(id=run.id)
+        except ObjectDoesNotExist:
+            return None
+         

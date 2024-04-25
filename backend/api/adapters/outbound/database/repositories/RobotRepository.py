@@ -74,3 +74,9 @@ class RobotRepository(IRobotRepository):
             schema.group.id,
             str(schema.created_at),
         )
+    
+    def robotToSchema(self, robot: Robot) -> RobotSchema:
+        try:
+            return RobotSchema.objects.get(id=robot.id)
+        except ObjectDoesNotExist:
+            return None

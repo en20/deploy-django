@@ -57,8 +57,8 @@ const executeRobot2 = async (
       url: url
     }
 
-    data.set("data", JSON.stringify(UrlBotData))
-
+    data.set("data", JSON.stringify(UrlBotData));
+    
     const response = await localProvider.post<ExecutionResponse, FormData>(
       `/api/robots/${robotId}/execute`,
       data,

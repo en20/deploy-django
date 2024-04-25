@@ -17,7 +17,6 @@ def validate_request(*, key, schemas):
                     continue
 
             return 400, {"error": "Unknown schema provided"}
-
         return wrapper
 
     return decorator

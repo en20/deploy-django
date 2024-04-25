@@ -64,3 +64,9 @@ class UserRepository(IUserRepository):
             str(schema.created_at),
             [group.id for group in schema.groups.all()],
         )
+
+    def userToSchema(self, user: User) -> UserSchema:
+        try:
+            return UserSchema.objects.get(id=user.id)
+        except ObjectDoesNotExist:
+            return None

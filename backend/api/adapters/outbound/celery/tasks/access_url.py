@@ -6,6 +6,7 @@ from selenium.common.exceptions import TimeoutException
 from urllib.parse import urlparse
 
 from api.adapters.outbound.database.repositories.RunRepository import RunRepository
+from api.adapters.outbound.database.repositories.RobotRepository import RobotRepository
 from api.application.usecases.runUseCase import RunUseCase
 from api.adapters.outbound.database.models.log import LogLevel
 from api.adapters.outbound.celery.utils import (
@@ -20,7 +21,8 @@ import time
 @shared_task()
 def access_url(run_id, target_url):
     run_repository = RunRepository()
-    run_usecase = RunUseCase(run_repository)
+    robot_repositoty = RobotRepository()
+    run_usecase = RunUseCase(run_repository, robot_repositoty)
     run = run_repository.findById(run_id)
 
     try:
