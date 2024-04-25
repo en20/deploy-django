@@ -34,9 +34,7 @@ class TaskUseCase(ITaskUseCase):
 
     def execute_url_robot(self, robot: Robot, data: dict[str, Any]) -> Run:
         run = self.runUseCase.createRun(robot, f"Acessar {data['url']}")
-
         access_url.apply_async(args=[run.id, data['url']])
-
         return run
 
     def execute_test_robot(self, robot: Robot, data: dict[str, Any], file) -> Run:

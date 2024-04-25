@@ -17,14 +17,18 @@ from api.adapters.outbound.celery.utils import (
 )
 import time
 
-
 @shared_task()
 def access_url(run_id, target_url):
     run_repository = RunRepository()
     robot_repositoty = RobotRepository()
     run_usecase = RunUseCase(run_repository, robot_repositoty)
-    run = run_repository.findById(run_id)
+    run = run_repository.runToSchema(run_repository.findById(run_id))
 
+    print(run_repository)
+    print(robot_repositoty)
+    print(run_usecase)
+    print(run)
+        
     try:
         if not urlparse(target_url).scheme:
             target_url = "https://" + target_url
