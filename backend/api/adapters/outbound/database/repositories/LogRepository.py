@@ -48,7 +48,7 @@ class LogRepository(ILogRepository):
         return list(map(self.schemaToLog, LogSchema.objects.all()[skip:limit]))
 
     def get_logs_by_run_id(self, run_id) -> list[Log]:
-        return list(map(self.schemaTolog, LogSchema.objects.filter(run=run_id)))
+        return list(map(self.schemaToLog, LogSchema.objects.filter(run=run_id)))
 
     def count_logs_by_run_id(self, run_id) -> int:
         return LogSchema.objects.filter(run=run_id).count()
