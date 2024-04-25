@@ -58,7 +58,7 @@ class RunRepository(IRunRepository):
         return Run(
             schema.id,
             schema.robot.id,
-            schema.task.id,
+            schema.task,
             schema.status,
-            str(schema.created_at),
+            str(schema.started_at),
         )
