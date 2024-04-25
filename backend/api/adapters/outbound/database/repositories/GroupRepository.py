@@ -13,6 +13,12 @@ class GroupRepository(IGroupRepository):
             )
         )
 
+    def rawCreate(self, name: str, description: str) -> GroupSchema:
+        return GroupSchema.objects.create(
+            name=name,
+            description=description,
+        )
+
     def update(self, id, name: str, description: str) -> bool:
         try:
             GroupSchema.objects.filter(id=id).update(
@@ -21,6 +27,7 @@ class GroupRepository(IGroupRepository):
             )
             return True
         except ObjectDoesNotExist:
+
             return False
 
     def delete(self, id) -> bool:

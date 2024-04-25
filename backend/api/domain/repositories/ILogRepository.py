@@ -1,16 +1,22 @@
 from api.domain.entities.log import Log
 from abc import ABC, abstractmethod
+from api.adapters.outbound.database.models.log import Log as LogSchema
+from api.adapters.outbound.database.models.run import Run as RunSchema
 
 
 # Interface for Log repository
 class ILogRepository(ABC):
 
     @abstractmethod
-    def create(self, run: str, content: str, level: str) -> Log:
+    def create(self, run: RunSchema, content: str, level: str) -> Log:
         pass
 
     @abstractmethod
-    def update(self, id: str, run: str, content: str, level: str) -> bool:
+    def rawCreate(self, run: RunSchema, content: str, level: str) -> LogSchema:
+        pass
+
+    @abstractmethod
+    def update(self, id: str, run: RunSchema, content: str, level: str) -> bool:
         pass
 
     @abstractmethod
