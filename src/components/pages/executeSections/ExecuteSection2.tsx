@@ -1,10 +1,10 @@
 "use client";
 import { ChangeEvent, useState, FormEvent } from "react";
-import FormRow from "../form/FormInput";
-import LinkButton from "../LinkButton";
+import FormRow from "../../common/form/FormInput";
+import LinkButton from "../../common/LinkButton";
 import { useRouter } from "next/navigation";
 import executeRobotService from "@/services/executeRobotService";
-import Breadcrumbs from "../Breadcrumbs";
+import Breadcrumbs from "../../common/Breadcrumbs";
 
 interface ExecuteSectionProps {
   botId: string;

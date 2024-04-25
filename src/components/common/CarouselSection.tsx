@@ -1,5 +1,5 @@
 "use client";
-import RobotCard from "@/components/RobotCard";
+import RobotCard from "@/components/common/RobotCard";
 import { useEffect, useState } from "react";
 import { RobotsResponse } from "@/types/api";
 import dataService from "@/services/dataService";

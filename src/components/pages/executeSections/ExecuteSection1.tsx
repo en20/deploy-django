@@ -1,14 +1,14 @@
 "use client";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import UploadPopUp from "../UploadPopUp";
-import MultiStepForm, { FormStep } from "../form/MultiStepForm";
-import FormRow from "../form/FormInput";
-import { UploadsTable2 } from "../Table";
+import UploadPopUp from "../../common/UploadPopUp";
+import MultiStepForm, { FormStep } from "../../common/form/MultiStepForm";
+import FormRow from "../../common/form/FormInput";
+import { UploadsTable2 } from "../../common/Table";
 import { FaFileUpload } from "react-icons/fa";
 import executeRobotService from "@/services/executeRobotService";
-import LinkButton from "../LinkButton";
-import Breadcrumbs from "../Breadcrumbs";
+import LinkButton from "../../common/LinkButton";
+import Breadcrumbs from "../../common/Breadcrumbs";
 
 interface ExecuteSectionProps {
   botId: string;

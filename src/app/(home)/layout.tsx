@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import { AuthContextProvider } from "@/context/authContext";
 import type { Metadata } from "next"
 
