@@ -1,4 +1,3 @@
-"""
 from django.test import TestCase
 
 from api.adapters.outbound.database.models.run import Run
@@ -13,7 +12,7 @@ group_repo = GroupRepository()
 
 class TestGroupRepository(TestCase):
 
-    def test_run_creation(self):
+    def test_run_create(self):
 
         # Arrange
         test_group = group_repo.rawCreate(name="autobots", description="this is a test")
@@ -40,20 +39,34 @@ class TestGroupRepository(TestCase):
             section_name="test",
             group=test_group,
         )
+        new_test_robot = robot_repo.rawCreate(
+            name="jon",
+            description="this is a test",
+            section_name="test",
+            group=test_group,
+        )
         test_run = run_repo.create(task="autobots", robot=test_robot)
 
         # Act
-        u_result = run_repo.update(test_run.id, "the_jons", "")
+        u_result = run_repo.update(test_run.id, "the_jons", new_test_robot, "SUCCESS")
         id_result = run_repo.findById(test_run.id)
 
         # Assert
         self.assertEqual(True, u_result)
         self.assertEqual(id_result.task, "the_jons")
-        self.assertEqual(id_result.robot, "not being baianos")
+        self.assertEqual(id_result.robot, new_test_robot.id)
+        self.assertEqual(id_result.status, "SUCCESS")
 
     def test_run_delete(self):
         # Arrange
-        test_run = test_run = run_repo.create(task="autobots", robot="this is a test")
+        test_group = group_repo.rawCreate(name="autobots", description="this is a test")
+        test_robot = robot_repo.rawCreate(
+            name="autobots",
+            description="this is a test",
+            section_name="test",
+            group=test_group,
+        )
+        test_run = run_repo.create(task="autobots", robot=test_robot)
 
         # Act
         result = run_repo.delete(test_run.id)
@@ -64,7 +77,14 @@ class TestGroupRepository(TestCase):
     def test_run_find_by_id(self):
 
         # Arrange
-        test_run = test_run = run_repo.create(task="autobots", robot="this is a test")
+        test_group = group_repo.rawCreate(name="autobots", description="this is a test")
+        test_robot = robot_repo.rawCreate(
+            name="autobots",
+            description="this is a test",
+            section_name="test",
+            group=test_group,
+        )
+        test_run = run_repo.create(task="autobots", robot=test_robot)
 
         # Act
         result = run_repo.findById(test_run.id)
@@ -75,9 +95,15 @@ class TestGroupRepository(TestCase):
     def test_run_find_all(self):
 
         # Arrange
-        test_run_one = run_repo.create(task="autobots", robot="this is a test")
-
-        test_run_two = run_repo.create(task="autobots", robot="this is a test")
+        test_group = group_repo.rawCreate(name="autobots", description="this is a test")
+        test_robot = robot_repo.rawCreate(
+            name="autobots",
+            description="this is a test",
+            section_name="test",
+            group=test_group,
+        )
+        test_run_one = run_repo.create(task="autobots", robot=test_robot)
+        test_run_two = run_repo.create(task="decepticons", robot=test_robot)
 
         # Act
         check_list = run_repo.findAll(0, 2)
@@ -87,8 +113,34 @@ class TestGroupRepository(TestCase):
         self.assertEquals(check_list[1], test_run_two)
 
     def test_run_get_robot_runs(self):
+        test_group = group_repo.rawCreate(name="autobots", description="this is a test")
+        test_robot = robot_repo.rawCreate(
+            name="autobots",
+            description="this is a test",
+            section_name="test",
+            group=test_group,
+        )
+        test_run_one = run_repo.create(task="autobots", robot=test_robot)
+        test_run_two = run_repo.create(task="decepticons", robot=test_robot)
 
+        check_list = run_repo.getRobotRuns(test_robot)
 
-    # def test_run_count_robot_runs(self):
-    
-"""
+        # Assert
+        self.assertEquals(check_list[0], test_run_one)
+        self.assertEquals(check_list[1], test_run_two)
+
+    def test_run_count_robot_runs(self):
+        test_group = group_repo.rawCreate(name="autobots", description="this is a test")
+        test_robot = robot_repo.rawCreate(
+            name="autobots",
+            description="this is a test",
+            section_name="test",
+            group=test_group,
+        )
+        test_run_one = run_repo.create(task="autobots", robot=test_robot)
+        test_run_two = run_repo.create(task="decepticons", robot=test_robot)
+
+        check_list = run_repo.countRobotRuns(test_robot)
+
+        # Assert
+        self.assertEquals(2, check_list)
