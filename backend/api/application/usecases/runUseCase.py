@@ -8,24 +8,26 @@ from api.adapters.outbound.database.repositories.RobotRepository import RobotRep
 class RunUseCase(IRunUseCase):
     runRepository: RunRepository
     robotRepository: RobotRepository
-    
-    def __init__(self, runRepository: RunRepository, robotRepository: RobotRepository) -> None:
+
+    def __init__(
+        self, runRepository: RunRepository, robotRepository: RobotRepository
+    ) -> None:
         self.runRepository = runRepository
         self.robotRepository = robotRepository
-        
+
     def createRun(self, robot: Robot, task: str) -> Run:
         robotSchema = self.robotRepository.robotToSchema(robot)
         return self.runRepository.create(task, robotSchema)
 
     def getRobotRuns(self, robot, skip, limit) -> list[Run]:
         return self.runRepository.getRobotRuns(robot)
-    
+
     def getRunById(self, runId) -> Run:
         return self.runRepository.findById(runId)
-    
+
     def countRobotRuns(self, robot) -> int:
         return self.runRepository.countRobotRuns(robot)
 
     def updateRunStatus(self, run: Run, status: str) -> bool:
-        run.status = status
-        return self.runRepository.update(run.id, run)
+        run = self.runRepository.runToSchema(run)
+        return self.runRepository.update(run.id, run.task, run.robot, status)
