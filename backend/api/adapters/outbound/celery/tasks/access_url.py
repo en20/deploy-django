@@ -17,6 +17,7 @@ from api.adapters.outbound.celery.utils import (
 )
 import time
 
+
 @shared_task()
 def access_url(run_id, target_url):
     run_repository = RunRepository()
@@ -24,11 +25,6 @@ def access_url(run_id, target_url):
     run_usecase = RunUseCase(run_repository, robot_repositoty)
     run = run_repository.runToSchema(run_repository.findById(run_id))
 
-    print(run_repository)
-    print(robot_repositoty)
-    print(run_usecase)
-    print(run)
-        
     try:
         if not urlparse(target_url).scheme:
             target_url = "https://" + target_url
@@ -52,7 +48,7 @@ def access_url(run_id, target_url):
 
         log(run, f"{target_url} acessado com sucesso")
 
-        finish_task(run)
+        finish_task(run_usecase, run)
 
     except TimeoutException:
         log(run, "Bot demorou demais para responder", LogLevel.ERROR)

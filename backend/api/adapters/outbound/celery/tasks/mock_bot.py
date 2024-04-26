@@ -61,7 +61,7 @@ def execute_mock_bot(file_path, run_id, name, password):
     run_repository = RunRepository()
     robot_repositoty = RobotRepository()
     run_usecase = RunUseCase(run_repository, robot_repositoty)
-    run = run_repository.findById(run_id)
+    run = run_repository.runToSchema(run_repository.findById(run_id))
 
     try:
         driver = webdriver.Firefox(options=setup_options(["--headless"]))

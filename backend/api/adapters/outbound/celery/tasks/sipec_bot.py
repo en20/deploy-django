@@ -351,7 +351,7 @@ def execute_sipec_bot(file_path, run_id, cpf, password, year, sector):
     run_repository = RunRepository()
     robot_repositoty = RobotRepository()
     run_usecase = RunUseCase(run_repository, robot_repositoty)
-    run = run_repository.findById(run_id)
+    run = run_repository.runToSchema(run_repository.findById(run_id))
 
     try:
         driver = webdriver.Firefox(options=setup_options(["--headless"]))
