@@ -2,7 +2,7 @@ from ninja import Router
 from django.http import HttpRequest
 from api.application.ports.logPort import ILogUseCase
 from api.application.ports.runPort import IRunUseCase
-from api.adapters.inbound.http.dtos.Log import LogCountResponse
+from api.adapters.inbound.http.dtos.Log import LogCountResponse, LogResponse
 from api.adapters.inbound.http.dtos.Run import RunResponse
 from api.adapters.inbound.http.dtos.Auth import Error
 
@@ -24,7 +24,7 @@ class LogController:
 
         @router.get(
             "/{robot_id}/runs/{run_id}/logs",
-            response={200: RunResponse, 400: Error, 404: Error},
+            response={200: LogResponse, 400: Error, 404: Error},
         )
         def get_logs(
             request: HttpRequest,
@@ -33,7 +33,7 @@ class LogController:
             skip: int = DEFAULT_SKIP,
             limit: int = DEFAULT_LIMIT,
         ):
-            run = self.runUseCase.getRobotRuns(robot_id, limit, skip)
+            run = self.runUseCase.getRunById(run_id)
 
             if run is None:
                 return 404, {"error": "this run does not exist"}
@@ -57,7 +57,7 @@ class LogController:
             skip: int = DEFAULT_SKIP,
             limit: int = DEFAULT_LIMIT,
         ):
-            run = self.runUseCase.getRobotRuns(robot_id, limit, skip)
+            run = self.runUseCase.getRunById(run_id)
 
             if run is None:
                 return 404, {"error": "This run does not exist"}

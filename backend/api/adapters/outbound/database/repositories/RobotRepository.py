@@ -29,7 +29,12 @@ class RobotRepository(IRobotRepository):
         )
 
     def update(
-        self, id: str, name: str, description: str, section_name: str, group: GroupSchema
+        self,
+        id: str,
+        name: str,
+        description: str,
+        section_name: str,
+        group: GroupSchema,
     ) -> bool:
         try:
             RobotSchema.objects.filter(id=id).update(
@@ -74,3 +79,9 @@ class RobotRepository(IRobotRepository):
             schema.group.id,
             str(schema.created_at),
         )
+
+    def robotToSchema(self, robot: Robot) -> RobotSchema:
+        try:
+            return RobotSchema.objects.get(id=robot.id)
+        except ObjectDoesNotExist:
+            return None

@@ -61,3 +61,9 @@ class LogRepository(ILogRepository):
             schema.level,
             str(schema.executed_at),
         )
+
+    def logToSchema(self, log: Log) -> LogSchema:
+        try:
+            return LogSchema.objects.get(id=log.id)
+        except ObjectDoesNotExist:
+            return None

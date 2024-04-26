@@ -32,8 +32,6 @@ class TestLogRepository(TestCase):
         self.assertEqual(test_log.content, "this is a test")
         self.assertEqual(test_log.level, "jon")
 
-
-
     def test_log_update(self):
 
         # Arrange
@@ -49,7 +47,9 @@ class TestLogRepository(TestCase):
         test_log = log_repo.create(run=test_run, content="this is a test", level="jon")
 
         # Act
-        u_result = log_repo.update(test_log.id, new_test_run, "not being baianos", "the_jons")
+        u_result = log_repo.update(
+            test_log.id, new_test_run, "not being baianos", "the_jons"
+        )
         id_result = log_repo.findById(test_log.id)
 
         # Assert
@@ -76,8 +76,6 @@ class TestLogRepository(TestCase):
 
         # Assert
         self.assertEqual(True, result)
-
-
 
     def test_log_find_by_id(self):
 
@@ -110,8 +108,12 @@ class TestLogRepository(TestCase):
         )
         test_run = run_repo.rawCreate(task="autobots", robot=test_robot)
         new_test_run = run_repo.rawCreate(task="notautobots", robot=test_robot)
-        test_log_one = log_repo.create(run=test_run, content="this is a test", level="jon")
-        test_log_two = log_repo.create(run=new_test_run, content="not being baianos", level="the_jons")
+        test_log_one = log_repo.create(
+            run=test_run, content="this is a test", level="jon"
+        )
+        test_log_two = log_repo.create(
+            run=new_test_run, content="not being baianos", level="the_jons"
+        )
 
         # Act
         check_list = log_repo.findAll(0, 2)
@@ -131,8 +133,12 @@ class TestLogRepository(TestCase):
             group=test_group,
         )
         test_run = run_repo.rawCreate(task="autobots", robot=test_robot)
-        test_log_one = log_repo.create(run=test_run, content="this is a test", level="jon")
-        test_log_two = log_repo.create(run=test_run, content="this is not a test", level="nonjon")
+        test_log_one = log_repo.create(
+            run=test_run, content="this is a test", level="jon"
+        )
+        test_log_two = log_repo.create(
+            run=test_run, content="this is not a test", level="nonjon"
+        )
 
         # Act
         check = log_repo.get_logs_by_run_id(test_run.id)
@@ -151,11 +157,12 @@ class TestLogRepository(TestCase):
             group=test_group,
         )
         test_run = run_repo.rawCreate(task="autobots", robot=test_robot)
-        test_log_one = log_repo.create(run=test_run, content="this is a test", level="jon")
-        test_log_two = log_repo.create(run=test_run, content="this is not a test", level="nonjon")
+        test_log_one = log_repo.create(
+            run=test_run, content="this is a test", level="jon"
+        )
+        test_log_two = log_repo.create(
+            run=test_run, content="this is not a test", level="nonjon"
+        )
 
         count = log_repo.count_logs_by_run_id(test_run.id)
         self.assertEquals(2, count)
-    
-
-

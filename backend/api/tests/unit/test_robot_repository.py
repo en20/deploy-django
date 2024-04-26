@@ -131,5 +131,3 @@ class TestGroupRepository(TestCase):
         check_list = robot_repo.findAllByGroups([test_group.id])
         # Assert
         self.assertEquals(check_list, base_list)
-        
-

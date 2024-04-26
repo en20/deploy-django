@@ -98,7 +98,7 @@ export default function ExecuteSection({ botId }: ExecuteSectionProps) {
     formData.set("file", uploadedFiles[0])
 
     try {
-      const response = await executeRobotService.executeRobot(
+      const response = await executeRobotService.executeRobot3(
         botId,
         formData,
         handleProgress,
