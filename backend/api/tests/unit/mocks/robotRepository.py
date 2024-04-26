@@ -13,8 +13,11 @@ class MockRobotRepository(IRobotRepository):
         self.database.append(robot)
         return robot
 
-    def rawCreate(self, name: str, description: str, section_name: str, group: GroupSchema) -> RobotSchema:
+    def rawCreate(
+        self, name: str, description: str, section_name: str, group: GroupSchema
+    ) -> RobotSchema:
         pass
+
     def update(
         self, id, name: str, description: str, section_name: str, group: str
     ) -> bool:

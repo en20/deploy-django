@@ -45,7 +45,7 @@ class GroupRepository(IGroupRepository):
 
     def schemaToGroup(self, schema: GroupSchema) -> Group:
         return Group(schema.id, schema.name, schema.description, str(schema.created_at))
-    
+
     def groupToSchema(self, group: Group) -> GroupSchema:
         try:
             return GroupSchema.objects.get(id=group.id)

@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 class TaskController:
     taskUseCase: ITaskUseCase
-    robotUseCase: IRobotUseCase 
+    robotUseCase: IRobotUseCase
 
     def __init__(
         self,
@@ -40,13 +40,13 @@ class TaskController:
             file: Optional[UploadedFile] = File(None),
         ):
             robot = self.robotUseCase.get_robot_by_id(robot_id)
-                        
+
             if not robot:
                 return 404, {"error": "Esse robo nao existe"}
-                        
+
             if not file:
                 run = self.taskUseCase.map_robot_to_execution(
-                    data['robot_name'], robot, data
+                    data["robot_name"], robot, data
                 )
 
                 return 200, {"message": "Tarefa iniciada com successo", "run": run.id}

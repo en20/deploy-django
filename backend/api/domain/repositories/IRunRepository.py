@@ -9,7 +9,7 @@ class IRunRepository(ABC):
     @abstractmethod
     def create(self, task: str, robot: RobotSchema) -> Run:
         pass
-        
+
     @abstractmethod
     def rawCreate(self, task: str, robot: RobotSchema) -> RunSchema:
         pass

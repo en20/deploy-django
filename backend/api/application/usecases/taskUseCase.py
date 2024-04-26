@@ -8,6 +8,7 @@ from api.adapters.outbound.celery.tasks.access_url import access_url
 from api.adapters.outbound.celery.tasks.mock_bot import execute_mock_bot
 from api.adapters.outbound.celery.tasks.sipec_bot import execute_sipec_bot
 
+
 class TaskUseCase(ITaskUseCase):
     runUseCase: IRunUseCase
     robot_to_execution: dict[str, Any]
@@ -34,7 +35,7 @@ class TaskUseCase(ITaskUseCase):
 
     def execute_url_robot(self, robot: Robot, data: dict[str, Any]) -> Run:
         run = self.runUseCase.createRun(robot, f"Acessar {data['url']}")
-        access_url.apply_async(args=[run.id, data['url']])
+        access_url.apply_async(args=[run.id, data["url"]])
         return run
 
     def execute_test_robot(self, robot: Robot, data: dict[str, Any], file) -> Run:
@@ -43,7 +44,9 @@ class TaskUseCase(ITaskUseCase):
             robot, "Cadastrar novos usuários no django admin"
         )
 
-        execute_mock_bot.apply_async(args=[file_path, run.id, data.name, data.password])
+        execute_mock_bot.apply_async(
+            args=[file_path, run.id, data["name"], data["password"]]
+        )
 
         return run
 
@@ -58,10 +61,10 @@ class TaskUseCase(ITaskUseCase):
             args=[
                 file_path,
                 run.id,
-                data['cpf'],
-                data['password'],
-                data['year'],
-                data['sector'],
+                data["cpf"],
+                data["password"],
+                data["year"],
+                data["sector"],
             ]
         )
 
