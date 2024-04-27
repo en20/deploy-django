@@ -2,11 +2,12 @@ from api.adapters.outbound.database.models.run import Run as RunSchema
 from api.domain.entities.run import Run
 from api.domain.repositories.IRunRepository import IRunRepository
 from django.core.exceptions import ObjectDoesNotExist
+from api.adapters.outbound.database.models.robot import Robot as RobotSchema
 
 
 # Concrete Implementation for Run Repository
 class RunRepository(IRunRepository):
-    def create(self, task: str, robot: str) -> Run:
+    def create(self, task: str, robot: RobotSchema) -> Run:
         return self.schemaToRun(
             RunSchema.objects.create(
                 task=task,
@@ -14,7 +15,13 @@ class RunRepository(IRunRepository):
             )
         )
 
-    def update(self, id: str, task: str, robot: str, status: str) -> bool:
+    def rawCreate(self, task: str, robot: RobotSchema) -> RunSchema:
+        return RunSchema.objects.create(
+            task=task,
+            robot=robot,
+        )
+
+    def update(self, id: str, task: str, robot: RobotSchema, status: str) -> bool:
         try:
             RunSchema.objects.filter(id=id).update(
                 robot=robot,
@@ -51,7 +58,13 @@ class RunRepository(IRunRepository):
         return Run(
             schema.id,
             schema.robot.id,
-            schema.task.id,
+            schema.task,
             schema.status,
-            str(schema.created_at),
+            str(schema.started_at),
         )
+
+    def runToSchema(self, run: Run) -> RunSchema:
+        try:
+            return RunSchema.objects.get(id=run.id)
+        except ObjectDoesNotExist:
+            return None

@@ -12,7 +12,7 @@ class TaskRouter:
     def __init__(self) -> None:
         runRepository = RunRepository()
         robotRepository = RobotRepository()
-        runUseCase = RunUseCase(runRepository)
+        runUseCase = RunUseCase(runRepository, robotRepository)
         robotUseCase = RobotUseCase(robotRepository)
         taskUseCase = TaskUseCase(runUseCase)
         self.controller = TaskController(taskUseCase, robotUseCase)

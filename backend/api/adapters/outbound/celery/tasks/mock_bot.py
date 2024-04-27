@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 from api.adapters.outbound.database.repositories.RunRepository import RunRepository
+from api.adapters.outbound.database.repositories.RobotRepository import RobotRepository
 from api.application.usecases.runUseCase import RunUseCase
 from api.adapters.outbound.database.models.log import LogLevel
 from api.adapters.outbound.celery.utils import (
@@ -58,8 +59,9 @@ def handle_login(run, driver, wait, name, password):
 @shared_task()
 def execute_mock_bot(file_path, run_id, name, password):
     run_repository = RunRepository()
-    run_usecase = RunUseCase(run_repository)
-    run = run_repository.findById(run_id)
+    robot_repositoty = RobotRepository()
+    run_usecase = RunUseCase(run_repository, robot_repositoty)
+    run = run_repository.runToSchema(run_repository.findById(run_id))
 
     try:
         driver = webdriver.Firefox(options=setup_options(["--headless"]))

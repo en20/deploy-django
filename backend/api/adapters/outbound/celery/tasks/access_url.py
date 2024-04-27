@@ -6,6 +6,7 @@ from selenium.common.exceptions import TimeoutException
 from urllib.parse import urlparse
 
 from api.adapters.outbound.database.repositories.RunRepository import RunRepository
+from api.adapters.outbound.database.repositories.RobotRepository import RobotRepository
 from api.application.usecases.runUseCase import RunUseCase
 from api.adapters.outbound.database.models.log import LogLevel
 from api.adapters.outbound.celery.utils import (
@@ -20,8 +21,9 @@ import time
 @shared_task()
 def access_url(run_id, target_url):
     run_repository = RunRepository()
-    run_usecase = RunUseCase(run_repository)
-    run = run_repository.findById(run_id)
+    robot_repositoty = RobotRepository()
+    run_usecase = RunUseCase(run_repository, robot_repositoty)
+    run = run_repository.runToSchema(run_repository.findById(run_id))
 
     try:
         if not urlparse(target_url).scheme:
@@ -46,7 +48,7 @@ def access_url(run_id, target_url):
 
         log(run, f"{target_url} acessado com sucesso")
 
-        finish_task(run)
+        finish_task(run_usecase, run)
 
     except TimeoutException:
         log(run, "Bot demorou demais para responder", LogLevel.ERROR)

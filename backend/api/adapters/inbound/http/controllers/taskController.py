@@ -46,13 +46,13 @@ class TaskController:
 
             if not file:
                 run = self.taskUseCase.map_robot_to_execution(
-                    data.robot_name, robot.id, data
+                    data["robot_name"], robot, data
                 )
 
                 return 200, {"message": "Tarefa iniciada com successo", "run": run.id}
 
             run = self.taskUseCase.map_robot_to_execution(
-                data.robot_name, robot.id, data, file
+                data["robot_name"], robot, data, file
             )
 
             return 200, {"message": "Tarefa iniciada com successo", "run": run.id}

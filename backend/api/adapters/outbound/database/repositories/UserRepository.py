@@ -15,6 +15,13 @@ class UserRepository(IUserRepository):
             )
         )
 
+    def rawCreate(self, name: str, email: str, password: str) -> UserSchema:
+        return UserSchema.objects.create(
+            name=name,
+            email=email,
+            password=password,
+        )
+
     def update(self, id, name: str, email: str, password: str) -> bool:
         try:
             UserSchema.objects.filter(id=id).update(
@@ -57,3 +64,9 @@ class UserRepository(IUserRepository):
             str(schema.created_at),
             [group.id for group in schema.groups.all()],
         )
+
+    def userToSchema(self, user: User) -> UserSchema:
+        try:
+            return UserSchema.objects.get(id=user.id)
+        except ObjectDoesNotExist:
+            return None

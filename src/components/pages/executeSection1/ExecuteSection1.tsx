@@ -84,17 +84,12 @@ export default function ExecuteSection({ botId }: ExecuteSectionProps) {
       alert("Nenhum arquivo escolhido");
       return;
     }
-
-    const formData = new FormData();
-
-    formData.set("name", credentials.name);
-    formData.set("password", credentials.password);
-    formData.set("file", uploadedFiles[0])
-
     try {
       const response = await executeRobotService.executeRobot(
         botId,
-        formData,
+        credentials.name,
+        credentials.password,
+        uploadedFiles[0],
         handleProgress,
       );
       alert(response.message);
