@@ -1,8 +1,8 @@
 "use client";
-import LinkButton from "@/components/LinkButton";
-import LogsSection from "@/components/LogsSection";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import LinkButton from "@/components/common/LinkButton";
+import LogsSection from "@/components/common/LogsSection";
+import ProtectedRoute from "@/components/common/ProtectedRoute";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 
 interface DetailsPageProps {
   params: { botId: string; taskId: string };

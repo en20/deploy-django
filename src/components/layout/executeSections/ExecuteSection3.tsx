@@ -1,14 +1,14 @@
 "use client";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import UploadPopUp from "../UploadPopUp";
-import MultiStepForm, { FormStep } from "../form/MultiStepForm";
-import FormRow from "../form/FormInput";
-import { UploadsTable2 } from "../Table";
+import UploadPopUp from "../../common/UploadPopUp";
+import MultiStepForm, { FormStep } from "../../common/form/MultiStepForm";
+import FormRow from "../../common/form/FormInput";
+import { UploadsTable2 } from "../../common/Table";
 import { FaFileUpload } from "react-icons/fa";
 import executeRobotService from "@/services/executeRobotService";
-import LinkButton from "../LinkButton";
-import Breadcrumbs from "../Breadcrumbs";
+import LinkButton from "../../common/LinkButton";
+import Breadcrumbs from "../../common/Breadcrumbs";
 
 interface ExecuteSectionProps {
   botId: string;
@@ -17,14 +17,18 @@ interface ExecuteSectionProps {
 export type SectionType = ({ botId }: ExecuteSectionProps) => JSX.Element;
 
 export interface Credentials {
-  name: string;
+  cpf: string;
   password: string;
+  year: string;
+  sector: string;
 }
 
 export default function ExecuteSection({ botId }: ExecuteSectionProps) {
   const [credentials, setCredentials] = useState<Credentials>({
-    name: "",
+    cpf: "",
     password: "",
+    year: "",
+    sector: "",
   });
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -84,12 +88,19 @@ export default function ExecuteSection({ botId }: ExecuteSectionProps) {
       alert("Nenhum arquivo escolhido");
       return;
     }
+
+    const formData = new FormData();
+
+    formData.set("cpf", credentials.cpf);
+    formData.set("password", credentials.password);
+    formData.set("year", credentials.year);
+    formData.set("sector", credentials.sector);
+    formData.set("file", uploadedFiles[0])
+
     try {
-      const response = await executeRobotService.executeRobot(
+      const response = await executeRobotService.executeRobot3(
         botId,
-        credentials.name,
-        credentials.password,
-        uploadedFiles[0],
+        formData,
         handleProgress,
       );
       alert(response.message);
@@ -156,11 +167,11 @@ export default function ExecuteSection({ botId }: ExecuteSectionProps) {
                 </h3>
                 <div className="grid lg:grid-cols-2 gap-10">
                   <FormRow
-                    key="name"
-                    labelText="Nome"
-                    inputId="name"
+                    key="cpf"
+                    labelText="CPF"
+                    inputId="cpf"
                     inputType="text"
-                    inputValue={credentials.name}
+                    inputValue={credentials.cpf}
                     inputRequired={true}
                     handleChange={handleChange}
                     rowClassName="w-full lg:w-2/3"
@@ -171,6 +182,33 @@ export default function ExecuteSection({ botId }: ExecuteSectionProps) {
                     inputId="password"
                     inputType="password"
                     inputValue={credentials.password}
+                    inputRequired={true}
+                    handleChange={handleChange}
+                    rowClassName="w-full lg:w-2/3"
+                  />
+                </div>
+              </div>
+              <div className="border relative border-gray-300 py-12 px-8 rounded-lg">
+                <h3 className="bg-base-100 absolute top-[-14px] px-2">
+                  Planejamento
+                </h3>
+                <div className="grid w-full lg:grid-cols-2 gap-10">
+                  <FormRow
+                    key="sector"
+                    labelText="Orgão"
+                    inputId="sector"
+                    inputType="text"
+                    inputValue={credentials.sector}
+                    inputRequired={true}
+                    handleChange={handleChange}
+                    rowClassName="w-full lg:w-2/3"
+                  />
+                  <FormRow
+                    key="year"
+                    labelText="Ano"
+                    inputId="year"
+                    inputType="number"
+                    inputValue={credentials.year}
                     inputRequired={true}
                     handleChange={handleChange}
                     rowClassName="w-full lg:w-2/3"

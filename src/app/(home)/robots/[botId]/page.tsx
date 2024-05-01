@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useState } from "react";
-import { RunsTable2 } from "@/components/Table";
-import LinkButton from "@/components/LinkButton";
+import { RunsTable2 } from "@/components/common/Table";
+import LinkButton from "@/components/common/LinkButton";
 import { RunsResponse } from "@/types/api";
 import dataService from "@/services/dataService";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import ProtectedRoute from "@/components/common/ProtectedRoute";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { DEFAULT_PAGE_SIZE } from "@/utils/api";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/common/Pagination";
 
 interface RobotPageProps {
   params: { botId: string };

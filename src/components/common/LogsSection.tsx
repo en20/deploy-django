@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
-import RunCard from "@/components/RunCard";
-import { LogsTable2 } from "@/components/Table";
+import RunCard from "@/components/common/RunCard";
+import { LogsTable2 } from "@/components/common/Table";
 import { LogsResponse } from "@/types/api";
 import dataService from "@/services/dataService";
 import { DEFAULT_PAGE_SIZE } from "@/utils/api";

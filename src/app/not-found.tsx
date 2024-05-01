@@ -1,5 +1,5 @@
 import { BsRobot } from "react-icons/bs";
-import LinkButton from "@/components/LinkButton";
+import LinkButton from "@/components/common/LinkButton";
 
 export default function NotFound() {
   return (

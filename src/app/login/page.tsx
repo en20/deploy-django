@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LoginForm from "@/components/LoginForm"
+import LoginForm from "@/components/common/form/LoginForm"
 
 export const metadata: Metadata = {
   title: "UFC Autobots • Login",
