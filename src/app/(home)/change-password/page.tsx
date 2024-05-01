@@ -1,4 +1,4 @@
-import ChangePasswordForm from "@/components/common/form/ChangePasswordForm";
+import ChangePasswordForm from "@/components/pages/change-password/ChangePasswordForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -2,7 +2,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import FormRow from "./FormInput";
+import FormRow from "../../common/form/FormInput";
 
 interface FormData {
   password: string;

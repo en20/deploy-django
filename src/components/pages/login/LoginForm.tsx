@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthContext } from "@/context/authContext";
 import authService from "@/services/authService";
-import FormRow from "./FormInput";
+import FormRow from "../../common/form/FormInput";
 
 interface FormData {
   email: string;
