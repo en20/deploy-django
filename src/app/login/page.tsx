@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LoginForm from "@/components/pages/login/LoginForm"
 
+
 export const metadata: Metadata = {
   title: "UFC Autobots • Login",
   description: "Projeto para o processo seletivo",

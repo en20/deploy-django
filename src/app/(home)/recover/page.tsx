@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import RecoverForm from "@/components/pages/recover/RecoverForm";
-
 export const metadata: Metadata = {
   title: "UFC Autobots • Recover",
 }

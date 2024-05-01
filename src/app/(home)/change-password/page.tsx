@@ -1,3 +1,4 @@
+
 import ChangePasswordForm from "@/components/pages/change-password/ChangePasswordForm";
 import type { Metadata } from "next";
 
