@@ -4,7 +4,11 @@ import {
   ExecuteSection1,
   ExecuteSection2,
   ExecuteSection3,
-} from "@/components/pages/index";
+
+} from "@/components/layout/executeSections";
+
+
+
 import ProtectedRoute from "@/components/common/ProtectedRoute";
 import { useEffect, useState } from "react";
 import { Robot } from "@/types/api";
