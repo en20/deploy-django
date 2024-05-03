@@ -1,7 +1,7 @@
 "use client"
-import CarouselSection from "@/components/CarouselSection";
-import Footer from "@/components/Footer";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import CarouselSection from "@/components/common/CarouselSection";
+import Footer from "@/components/layout/Footer";
+import ProtectedRoute from "@/components/common/ProtectedRoute";
 import { NextPage } from "next";
 
 function Home() {
