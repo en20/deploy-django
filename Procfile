@@ -1,1 +1,1 @@
-web: gunicorn ufc_autobots
+web: gunicorn project.wsgi
